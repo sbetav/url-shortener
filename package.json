@@ -9,12 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.48.1",
     "@tailwindcss/postcss": "^4.0.1",
     "justd-icons": "^1.10.24",
     "next": "15.1.6",
+    "next-safe-action": "^7.10.2",
     "react": "^19.0.0",
+    "react-aria": "^3.37.0",
     "react-aria-components": "^1.6.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sonner": "^1.7.3",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

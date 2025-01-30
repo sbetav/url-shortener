@@ -4,6 +4,8 @@ import "./globals.css";
 import { Providers } from "@/components/providers/providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/ui/Footer";
+import { Toast } from "@/components/ui";
+import { createClient } from "@/utils/supabase/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,11 +22,16 @@ export const metadata: Metadata = {
   description: "Easily shorten your URLs, no sign up required.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -33,10 +40,11 @@ export default function RootLayout({
       >
         <Providers>
           <div className="min-h-screen max-w-4xl w-full mx-4 sm:mx-5">
-            <Navbar />
+            <Navbar user={user} />
             <main className="pt-6">{children}</main>
             <Footer />
           </div>
+          <Toast position="top-center" />
         </Providers>
       </body>
     </html>
