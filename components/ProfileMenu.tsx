@@ -16,6 +16,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ user }) => {
       <Menu.Trigger>
         <Avatar
           src={user?.user_metadata.avatar_url}
+          initials={user?.user_metadata.name[0]}
           alt={user?.user_metadata.name}
         />
       </Menu.Trigger>
