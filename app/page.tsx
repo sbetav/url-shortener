@@ -3,14 +3,14 @@ import {
   IconArrowRight,
   IconCalendarClock,
   IconChainLink,
-  IconPieChart2
+  IconPieChart2,
 } from "justd-icons";
 import { FC } from "react";
 
 export default function Home() {
   return (
-    <div className="w-full flex items-center justify-center min-h-content-min-height">
-      <div className="flex  w-full max-w-[450px] flex-col items-center justify-center gap-20">
+    <div className="min-h-content-min-height flex w-full items-center justify-center">
+      <div className="flex w-full max-w-[450px] flex-col items-center justify-center gap-20">
         <div className="flex w-full flex-col items-center justify-center gap-28">
           <section className="flex w-full flex-col items-center justify-center gap-6">
             <div>

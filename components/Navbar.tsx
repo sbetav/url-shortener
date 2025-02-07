@@ -12,7 +12,7 @@ interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ user }) => {
   return (
-    <header className="bg-secondary/20 sticky top-6 flex w-full max-w-screen items-center justify-between rounded-xl z-50 border border-white/10 py-2.5 px-3 backdrop-blur-lg">
+    <header className="bg-secondary/20 sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-xl border border-white/10 px-3 py-2.5 backdrop-blur-lg">
       <Link
         href="/"
         className="flex items-center justify-center gap-0.5 transition-all hover:opacity-75"

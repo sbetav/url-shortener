@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/ui/Footer";
 import { Toast } from "@/components/ui";
 import { createClient } from "@/utils/supabase/server";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,12 +39,13 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <Providers>
+          <NextTopLoader color="#bbf451" />
           <div className="min-h-screen max-w-4xl w-full mx-4 sm:mx-5">
             <Navbar user={user} />
             <main className="pt-6">{children}</main>
             <Footer />
           </div>
-          <Toast position="top-center" />
+          <Toast position="top-center" duration={2000} />
         </Providers>
       </body>
     </html>
