@@ -4,7 +4,6 @@ import { FC } from "react";
 import { Button, Loader } from "@/components/ui";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/utils/classes";
 import { toast } from "sonner";
 import { linkSchema } from "@/utils/schemas";
 import { useAction } from "next-safe-action/hooks";
@@ -47,9 +46,10 @@ const HomeInput: FC<HomeInputProps> = ({}) => {
       <input
         disabled={isExecuting}
         placeholder="Enter URL"
-        className={cn(
-          "bg-secondary/50 ring-ring/20 focus:border-ring w-full rounded-full border border-white/10 px-5 py-3 pr-[84px] tracking-tight outline-hidden transition-all outline-none hover:border-white/20 focus:ring-4 disabled:opacity-75 disabled:hover:border-white/10 md:text-lg",
-        )}
+        className="bg-secondary/50 ring-ring/20 focus:border-ring w-full rounded-full border
+          border-white/10 px-5 py-3 pr-[84px] tracking-tight outline-hidden transition-all
+          outline-none hover:border-white/20 focus:ring-4 disabled:opacity-75
+          disabled:hover:border-white/10 md:text-lg"
         {...register("url")}
       />
       <Button
