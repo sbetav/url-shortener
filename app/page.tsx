@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { currentUser } from "@clerk/nextjs/server";
 import { FC } from "react";
 
@@ -8,7 +9,7 @@ const Page: FC<PageProps> = async ({}) => {
   console.log(user);
   return (
     <main className="flex h-dvh w-full items-center justify-center">
-      Hello!
+      <Button>Click me</Button>
     </main>
   );
 };
