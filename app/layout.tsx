@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Providers } from "@/components/providers";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,19 +35,16 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.className} ${geistMono.variable} antialiased`}
+          className={`${geistSans.className} ${geistMono.variable} flex items-center justify-center bg-[radial-gradient(ellipse_75%_75%_at_50%_-20%,rgba(80,95,45,0.4),rgba(255,255,255,0))] bg-no-repeat antialiased`}
           suppressHydrationWarning
         >
-          <header className="flex h-16 items-center justify-end gap-4 p-4">
-            <SignedOut>
-              <SignInButton />
-              <SignUpButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          <Providers>{children}</Providers>
+          <Providers>
+            <div className="mx-4 min-h-screen w-full max-w-4xl sm:mx-5">
+              <Header />
+              <main className="pt-6">{children}</main>
+              <Footer />
+            </div>
+          </Providers>
         </body>
       </html>
     </ClerkProvider>

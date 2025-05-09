@@ -103,7 +103,7 @@
     --chart-4: oklch(0.938 0.127 124.321);
     --chart-5: oklch(0.967 0.067 122.328);
     
-    --radius-lg: 0.5rem;
+    --radius-lg: 0.75rem;
     --radius-xs: calc(var(--radius-lg) * 0.5);
     --radius-sm: calc(var(--radius-lg) * 0.75);
     --radius-md: calc(var(--radius-lg) * 0.9);
