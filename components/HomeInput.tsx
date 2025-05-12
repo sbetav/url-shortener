@@ -6,14 +6,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { linkSchema } from "@/utils/schemas";
-//import { useAction } from "next-safe-action/hooks";
-//import { createLink } from "@/actions/links.actions";
+import { useAction } from "next-safe-action/hooks";
+import { createLink } from "@/actions/link.actions";
 import { useRouter } from "nextjs-toploader/app";
-
 import { IconSettings } from "@intentui/icons";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Modal } from "./ui/modal";
+import { Loader } from "./ui/loader";
 
 interface HomeInputProps {
   user: any | null;
@@ -33,18 +33,17 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
     },
   });
 
-  //const { executeAsync, isExecuting } = useAction(createLink);
+  const { executeAsync, isExecuting } = useAction(createLink);
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-    //const res = await executeAsync({
-    //  url: data.url,
-    //});
-    //
-    //if (res?.data) {
-    //  reset();
-    //  router.push(`/share/${res.data.link}`);
-    //}
+    const res = await executeAsync({
+      url: data.url,
+    });
+
+    if (res?.data) {
+      reset();
+      router.push(`/share/${res.data.link}`);
+    }
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -55,7 +54,7 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
         <input
           autoComplete="off"
           type="url"
-        //  disabled={isExecuting}
+          disabled={isExecuting}
           placeholder="Enter URL"
           className="bg-secondary/50 ring-ring/20 focus:border-ring w-full rounded-full border border-white/10 px-5 py-3 pr-[84px] tracking-tight outline-hidden transition-all outline-none hover:border-white/20 focus:ring-4 disabled:opacity-75 disabled:hover:border-white/10 md:text-lg"
           {...register("url")}
@@ -70,10 +69,9 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
           type="submit"
           shape="circle"
           className="absolute top-[7px] right-[7px] w-[68px]"
-          //  isPending={isExecuting}
+          isPending={isExecuting}
         >
-          {/* {!isExecuting ? "Short" : <Loader variant="spin" />} */}
-          Short
+          {!isExecuting ? "Short" : <Loader variant="spin" />}
         </Button>
       </div>
 

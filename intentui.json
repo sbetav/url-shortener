@@ -1,6 +1,7 @@
 {
   "ui": "components\\ui",
-  "utils": "utils",
+  "lib": "utils",
+  "hooks": "hooks",
   "gray": "zinc",
   "css": "app/globals.css",
   "alias": "@",
