@@ -31,16 +31,16 @@ async function generateUniqueId(): Promise<string> {
 
 export const createLink = actionClient
   .schema(linkSchema)
-  .action(async ({ parsedInput: { url } }) => {
+  .action(async ({ parsedInput: { url, userId } }) => {
     if (!url) throw new Error("URL is required");
 
     const supabase = await createClient();
 
-    const shortLink = await generateUniqueId(); // Ensure uniqueness
+    const identifier = await generateUniqueId(); // Ensure uniqueness
 
     const { data, error } = await supabase
       .from("links")
-      .insert([{ link: shortLink, url }])
+      .insert([{ alias: identifier, url, user_id: userId }])
       .select()
       .single<LinkType>();
 

@@ -1,6 +1,6 @@
 export interface LinkType {
   id: string;
-  link: string;
+  alias: string;
   url: string;
   created_at: string;
   user_id: string | null;

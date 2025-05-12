@@ -50,9 +50,9 @@ const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       {/* URL Copy Section */}
-      <div className="flex w-full items-center justify-center gap-2">
+      <div className="flex w-full items-center justify-center gap-2 pb-2">
         <p className="bg-secondary/50 w-full truncate rounded-lg border border-white/10 px-3 py-2 transition-all hover:border-white/20">
           {url}
         </p>
@@ -70,11 +70,11 @@ const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
 
       {/* Separator */}
       <div className="flex w-full items-center justify-center gap-4">
-        <Separator />
+        <Separator className="w-full"/>
         <span className="text-muted-fg text-center text-xs font-medium tracking-wider text-nowrap uppercase">
           Share to socials
         </span>
-        <Separator />
+        <Separator className="w-full"/>
       </div>
 
       {/* Social Icons */}

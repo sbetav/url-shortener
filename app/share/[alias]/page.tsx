@@ -10,24 +10,24 @@ import { Card } from "@/components/ui/card";
 import { Note } from "@/components/ui/note";
 
 interface PageProps {
-  params: Promise<{ linkId: string }>;
+  params: Promise<{ alias: string }>;
 }
 
 const Page: FC<PageProps> = async ({ params }) => {
-  const linkId = (await params).linkId;
+  const alias = (await params).alias;
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("links")
     .select()
-    .eq("link", linkId)
+    .eq("alias", alias)
     .single<LinkType>();
 
   if (error) {
     redirect("/not-found");
   }
 
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.link}`;
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.alias}`;
 
   return (
     <div className="min-h-content-min-height flex w-full flex-col items-center justify-center gap-5">

@@ -5,6 +5,7 @@ export const linkSchema = z.object({
     .string()
     .url("Please enter a valid URL")
     .min(1, "Please enter a valid URL"),
+  userId: z.string().optional(),
 });
 
 export const customLinkSchema = z.object({

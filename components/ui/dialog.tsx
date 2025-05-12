@@ -11,7 +11,7 @@ import {
   Text,
 } from "react-aria-components";
 
-import { useMediaQuery } from "@/utils/useMediaQuery";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { composeTailwindRenderProps } from "./primitive";
 import { twJoin, twMerge } from "tailwind-merge";
 import { Button, type ButtonProps } from "./button";

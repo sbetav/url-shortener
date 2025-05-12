@@ -1,5 +1,7 @@
 import HomeInput from "@/components/HomeInput";
-import { currentUser } from "@clerk/nextjs/server";
+import LoginModal from "@/components/LoginModal";
+import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
 import {
   IconArrowRight,
   IconCalendarClock,
@@ -10,10 +12,14 @@ import Link from "next/link";
 import { FC } from "react";
 
 export default async function Home() {
-  const user = await currentUser();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div className="min-h-content-min-height flex w-full items-center justify-center">
-      <div className="flex w-full max-w-[450px] flex-col items-center justify-center gap-28 py-20">
+      <div className="flex w-full max-w-[450px] flex-col items-center justify-center gap-24 py-20">
         <section className="flex w-full flex-col items-center justify-center gap-6">
           <div>
             <h1 className="bg-gradient-to-r from-white to-stone-400 bg-clip-text text-center text-4xl font-semibold tracking-tight text-transparent sm:text-5xl md:text-6xl">
@@ -23,7 +29,7 @@ export default async function Home() {
               Easily shorten your URLs, no sign up required.
             </p>
           </div>
-          <HomeInput user={null} />
+          <HomeInput user={user} />
         </section>
 
         {!user ? (
@@ -42,10 +48,14 @@ export default async function Home() {
               <InsightCard title="Expiration dates" icon={IconCalendarClock} />
             </div>
 
-            <div className="text-primary group flex cursor-pointer items-center justify-center gap-1 text-center">
-              <span>Create an account</span>
-              <IconArrowRight className="size-5 transition-all group-hover:translate-x-1" />
-            </div>
+            <LoginModal
+              trigger={
+                <Button intent="plain" className="text-primary group">
+                 Create an account
+                  <IconArrowRight className="transition-all group-hover:translate-x-1" />
+                </Button>
+              }
+            />
           </section>
         ) : (
           <section className="flex w-full flex-col items-center justify-center gap-3">

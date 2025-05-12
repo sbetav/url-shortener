@@ -1,7 +1,6 @@
 "use client";
 
 import { FC, useState } from "react";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -14,9 +13,10 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Modal } from "./ui/modal";
 import { Loader } from "./ui/loader";
+import { User } from "@supabase/supabase-js";
 
 interface HomeInputProps {
-  user: any | null;
+  user?: User | null;
 }
 
 const HomeInput: FC<HomeInputProps> = ({ user }) => {
@@ -38,11 +38,12 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
   const onSubmit = handleSubmit(async (data) => {
     const res = await executeAsync({
       url: data.url,
+      userId: user?.id,
     });
 
     if (res?.data) {
       reset();
-      router.push(`/share/${res.data.link}`);
+      router.push(`/share/${res.data.alias}`);
     }
   });
 
@@ -80,7 +81,7 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
           <div className="flex w-full items-center justify-center gap-4">
             <Separator className="w-full" />
             <span className="text-muted-fg text-sm">Or</span>
-            <Separator />
+            <Separator className="w-full" />
           </div>
           <Button intent="secondary" onPress={() => setShowModal(true)}>
             <IconSettings />

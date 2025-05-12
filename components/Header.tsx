@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { FC } from "react";
 import { IconBrandGithub, IconPaperclip } from "@intentui/icons";
-import { UserButton } from "@clerk/nextjs";
-import { SignedIn } from "@clerk/nextjs";
-import { SignedOut, SignInButton } from "@clerk/nextjs";
-import { Button } from "./ui/button";
+import { createClient } from "@/utils/supabase/server";
+import ProfileMenu from "./ProfileMenu";
+import LoginModal from "./LoginModal";
 
 interface HeaderProps {}
 
-const Header: FC<HeaderProps> = ({}) => {
+const Header: FC<HeaderProps> = async ({}) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
-    <header className="bg-secondary/20 sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-3xl border border-white/10 px-3.5 py-2.5 backdrop-blur-lg">
+    <header className="bg-black/10 sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-3xl border border-white/10 px-3.5 py-2.5 backdrop-blur-lg">
       <Link
         href="/"
         className="flex items-center justify-center gap-0.5 transition-all hover:opacity-75"
@@ -29,14 +32,7 @@ const Header: FC<HeaderProps> = ({}) => {
           <IconBrandGithub className="size-5" />
         </Link>
 
-        <SignedOut>
-          <SignInButton mode="modal" component="div">
-            <Button size="small">Login</Button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+        {!user ? <LoginModal /> : <ProfileMenu user={user} />}
       </div>
     </header>
   );

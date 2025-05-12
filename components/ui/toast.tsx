@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useTheme } from "@/components/theme-provider"
-import { Toaster as ToasterPrimitive, type ToasterProps } from "sonner"
+import { useTheme } from "@/components/theme-provider";
+import { Toaster as ToasterPrimitive, type ToasterProps } from "sonner";
 
 const Toast = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { theme = "dark" } = useTheme();
   return (
     <ToasterPrimitive
       theme={theme as ToasterProps["theme"]}
@@ -12,18 +12,19 @@ const Toast = ({ ...props }: ToasterProps) => {
       richColors
       toastOptions={{
         classNames: {
-          toast: "toast border-0! inset-ring! inset-ring-fg/10!",
+          toast: "toast border-0! inset-ring! inset-ring-fg/10! rounded-xl!",
           title: "title",
           description: "description",
           actionButton: "bg-primary! hover:bg-primary/90! text-primary-fg!",
-          cancelButton: "bg-transparent! hover:bg-secondary! hover:text-secondary-fg!",
+          cancelButton:
+            "bg-transparent! hover:bg-secondary! hover:text-secondary-fg!",
           closeButton: "close-button",
         },
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
-export type { ToasterProps }
-export { Toast }
+export type { ToasterProps };
+export { Toast };
