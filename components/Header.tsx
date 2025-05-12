@@ -10,13 +10,15 @@ interface HeaderProps {}
 
 const Header: FC<HeaderProps> = ({}) => {
   return (
-    <header className="bg-secondary/20 sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-3xl border border-white/10 px-3 py-2.5 backdrop-blur-lg">
+    <header className="bg-secondary/20 sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-3xl border border-white/10 px-3.5 py-2.5 backdrop-blur-lg">
       <Link
         href="/"
         className="flex items-center justify-center gap-0.5 transition-all hover:opacity-75"
       >
         <IconPaperclip className="size-6" />
-        <span className="text-xl font-semibold tracking-tight">Shortie</span>
+        <span className="mb-[1px] text-xl font-semibold tracking-tight">
+          Shortie
+        </span>
       </Link>
       <div className="flex items-center justify-center gap-3">
         <Link
@@ -29,9 +31,7 @@ const Header: FC<HeaderProps> = ({}) => {
 
         <SignedOut>
           <SignInButton mode="modal" component="div">
-            <Button size="small" >
-              Sign In
-            </Button>
+            <Button size="small">Login</Button>
           </SignInButton>
         </SignedOut>
         <SignedIn>

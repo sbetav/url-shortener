@@ -6,6 +6,8 @@ import { dark } from "@clerk/themes";
 import { Providers } from "@/components/providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import NextTopLoader from "nextjs-toploader";
+import { Toast } from "@/components/ui/toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,11 +41,13 @@ export default function RootLayout({
           suppressHydrationWarning
         >
           <Providers>
+            <NextTopLoader color="#bbf451" />
             <div className="mx-4 min-h-screen w-full max-w-4xl sm:mx-5">
               <Header />
               <main className="pt-6">{children}</main>
               <Footer />
             </div>
+            <Toast position="top-center" duration={2000} />
           </Providers>
         </body>
       </html>

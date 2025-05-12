@@ -9,9 +9,12 @@
 @plugin 'tailwindcss-react-aria-components';
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-  "Segoe UI Symbol", "Noto Color Emoji";
-  --font-mono: "Geist Mono", 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace';
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    "Geist Mono", "ui-monospace", "SFMono-Regular", "Menlo", "Monaco",
+    "Consolas", '"Liberation Mono"', '"Courier New"', "monospace";
 
   --color-border: var(--border);
   --color-input: var(--input);
@@ -56,53 +59,55 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  --spacing-content-min-height: calc(100vh - 143px);
 }
 
 @layer base {
   :root {
     --bg: oklch(1 0 0);
     --fg: oklch(0.145 0 0);
-    
+
     --primary: oklch(0.897 0.196 126.665);
     --primary-fg: oklch(0.274 0.072 132.109);
-    
+
     --secondary: oklch(0.922 0 0);
     --secondary-fg: oklch(0.145 0 0);
-    
+
     --overlay: oklch(1 0 0);
     --overlay-fg: oklch(0.145 0 0);
-    
+
     --accent: oklch(0.897 0.196 126.665);
     --accent-fg: oklch(0.274 0.072 132.109);
-    
+
     --muted: oklch(0.97 0 0);
     --muted-fg: oklch(0.556 0 0);
-    
+
     --success: oklch(0.596 0.145 163.225);
     --success-fg: oklch(1 0 0);
-    
+
     --warning: oklch(0.828 0.189 84.429);
     --warning-fg: oklch(0.279 0.077 45.635);
-    
+
     --danger: oklch(0.577 0.245 27.325);
     --danger-fg: oklch(0.971 0.013 17.38);
-    
-    --border: oklch(0.910 0 0);
+
+    --border: oklch(0.91 0 0);
     --input: oklch(0.87 0 0);
     --ring: oklch(0.648 0.2 131.684);
-    
+
     --navbar: oklch(0.97 0 0);
     --navbar-fg: oklch(0.145 0 0);
-    
+
     --sidebar: oklch(0.97 0 0);
     --sidebar-fg: oklch(0.145 0 0);
-    
+
     --chart-1: oklch(0.648 0.2 131.684);
     --chart-2: oklch(0.841 0.238 128.85);
     --chart-3: oklch(0.897 0.196 126.665);
     --chart-4: oklch(0.938 0.127 124.321);
     --chart-5: oklch(0.967 0.067 122.328);
-    
+
     --radius-lg: 0.75rem;
     --radius-xs: calc(var(--radius-lg) * 0.5);
     --radius-sm: calc(var(--radius-lg) * 0.75);
@@ -112,45 +117,45 @@
     --radius-3xl: calc(var(--radius-lg) * 2);
     --radius-4xl: calc(var(--radius-lg) * 3);
   }
-  
+
   .dark {
     --bg: oklch(0.095 0 0);
     --fg: oklch(0.985 0 0);
-    
+
     --primary: oklch(0.897 0.196 126.665);
     --primary-fg: oklch(0.274 0.072 132.109);
-    
+
     --secondary: oklch(0.239 0 0);
     --secondary-fg: oklch(0.985 0 0);
-    
+
     --accent: oklch(0.897 0.196 126.665);
     --accent-fg: oklch(0.274 0.072 132.109);
-    
+
     --muted: oklch(0.205 0 0);
     --muted-fg: oklch(0.708 0 0);
-    
+
     --overlay: oklch(0.165 0 0);
     --overlay-fg: oklch(0.985 0 0);
-    
+
     --success: oklch(0.596 0.145 163.225);
     --success-fg: oklch(1 0 0);
-    
+
     --warning: oklch(0.828 0.189 84.429);
     --warning-fg: oklch(0.279 0.077 45.635);
-    
+
     --danger: oklch(0.577 0.245 27.325);
     --danger-fg: oklch(0.971 0.013 17.38);
-    
+
     --border: oklch(0.271 0 0);
     --input: oklch(0.321 0 0);
     --ring: oklch(0.648 0.2 131.684);
-    
+
     --navbar: oklch(0.165 0 0);
     --navbar-fg: oklch(0.985 0 0);
-    
+
     --sidebar: oklch(0.155 0 0);
     --sidebar-fg: oklch(0.985 0 0);
-   
+
     --chart-1: oklch(0.532 0.157 131.589);
     --chart-2: oklch(0.768 0.233 130.85);
     --chart-3: oklch(0.841 0.238 128.85);
