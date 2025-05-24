@@ -20,11 +20,12 @@ export default async function Home() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   const { data: links } = await supabase
     .from("links")
     .select<"*", LinkType>("*")
     .eq("user_id", user?.id)
-    .limit(3);
+    .order("created_at", { ascending: false });
 
   return (
     <div className="min-h-content-min-height flex w-full items-center justify-center">
@@ -85,7 +86,7 @@ export default async function Home() {
                   "mt-1 flex w-full flex-col items-center justify-center gap-3 sm:flex-row",
                 )}
               >
-                {links?.map((l) => (
+                {links?.slice(0, 3).map((l) => (
                   <Link
                     key={l.id}
                     title={l.url}
@@ -101,7 +102,7 @@ export default async function Home() {
               </div>
             )}
             <Link
-              href="/my-links"
+              href="/links"
               className="text-primary group flex cursor-pointer items-center justify-center gap-1 text-center"
             >
               <span>Go to my links</span>

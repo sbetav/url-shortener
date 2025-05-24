@@ -37,6 +37,10 @@ export const createLink = actionClient
 
     const identifier = await generateUniqueId(); // Ensure uniqueness
 
+    if (url.endsWith("/")) {
+      url = url.slice(0, -1);
+    }
+
     const { data, error } = await supabase
       .from("links")
       .insert([{ slug: identifier, url, user_id: userId }])
@@ -66,8 +70,6 @@ export const checkSlugAvailability = actionClient
       .select("slug")
       .eq("slug", slug)
       .single();
-
-    console.log(data);
 
     if (data) return false;
 
@@ -99,6 +101,10 @@ export const createCustomLink = actionClient.schema(customLinkSchema).action(
       return {
         error: "Slug is already taken",
       };
+    }
+
+    if (url.endsWith("/")) {
+      url = url.slice(0, -1);
     }
 
     const { data, error } = await supabase
