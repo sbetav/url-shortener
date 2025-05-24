@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -8,12 +8,11 @@ import { linkSchema } from "@/utils/schemas";
 import { useAction } from "next-safe-action/hooks";
 import { createLink } from "@/actions/link.actions";
 import { useRouter } from "nextjs-toploader/app";
-import { IconSettings } from "@intentui/icons";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
-import { Modal } from "./ui/modal";
 import { Loader } from "./ui/loader";
 import { User } from "@supabase/supabase-js";
+import CustomLinkModal from "./CustomLinkModal";
 
 interface HomeInputProps {
   user?: User | null;
@@ -41,13 +40,16 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
       userId: user?.id,
     });
 
+    if (res?.data?.error) {
+      toast.error(res.data.error);
+      return;
+    }
+
     if (res?.data) {
       reset();
-      router.push(`/share/${res.data.alias}`);
+      router.push(`/share/${res.data.link}`);
     }
   });
-
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4">
@@ -83,31 +85,7 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
             <span className="text-muted-fg text-sm">Or</span>
             <Separator className="w-full" />
           </div>
-          <Button intent="secondary" onPress={() => setShowModal(true)}>
-            <IconSettings />
-            Create a custom link
-          </Button>
-          <Modal isOpen={showModal} onOpenChange={setShowModal}>
-            <Modal.Content isBlurred size="md">
-              <Modal.Header>
-                <Modal.Title>Create new link</Modal.Title>
-                <Modal.Description>
-                  Setup your link custom options
-                </Modal.Description>
-              </Modal.Header>
-              <Modal.Body>Hey</Modal.Body>
-              <Modal.Footer>
-                <Button
-                  intent="secondary"
-                  className="w-full"
-                  onPress={() => setShowModal(false)}
-                >
-                  Cancel
-                </Button>
-                <Button className="w-full">Create</Button>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
+          <CustomLinkModal user={user} />
         </>
       )}
     </div>

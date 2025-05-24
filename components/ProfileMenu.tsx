@@ -13,7 +13,6 @@ interface ProfileMenuProps {
 }
 
 const ProfileMenu: FC<ProfileMenuProps> = ({ user }) => {
-  console.log(user?.user_metadata.avatar_url);
   return (
     <Menu>
       <Menu.Trigger className="cursor-pointer transition-all hover:opacity-75">

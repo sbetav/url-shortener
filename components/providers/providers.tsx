@@ -1,6 +1,6 @@
 'use client'
 
-import { ThemeProvider } from './providers/theme-provider'
+import { ThemeProvider } from './theme-provider'
 import { useRouter } from 'next/navigation'
 import { RouterProvider } from 'react-aria-components'
 

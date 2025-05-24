@@ -2,10 +2,11 @@
 
 import { LinkType } from "@/types";
 import { actionClient } from "@/utils/safe-action";
-import { linkSchema } from "@/utils/schemas";
+import { customLinkSchema, linkSchema } from "@/utils/schemas";
 import { createClient } from "@/utils/supabase/server";
-
+import slugify from "slugify";
 import { nanoid } from "nanoid";
+import { z } from "zod";
 
 async function generateUniqueId(): Promise<string> {
   const supabase = await createClient();
@@ -32,19 +33,89 @@ async function generateUniqueId(): Promise<string> {
 export const createLink = actionClient
   .schema(linkSchema)
   .action(async ({ parsedInput: { url, userId } }) => {
-    if (!url) throw new Error("URL is required");
-
     const supabase = await createClient();
 
     const identifier = await generateUniqueId(); // Ensure uniqueness
 
     const { data, error } = await supabase
       .from("links")
-      .insert([{ alias: identifier, url, user_id: userId }])
+      .insert([{ slug: identifier, url, user_id: userId }])
       .select()
       .single<LinkType>();
 
-    if (error) throw new Error(error.message);
+    if (error) {
+      return {
+        error: "Something went wrong",
+      };
+    }
 
-    return data;
+    return {
+      link: data.slug,
+    };
   });
+
+export const checkSlugAvailability = actionClient
+  .schema(z.object({ slug: z.string() }))
+  .action(async ({ parsedInput: { slug } }) => {
+    if (!slug) throw new Error("Slug is required");
+
+    const supabase = await createClient();
+
+    const { data } = await supabase
+      .from("links")
+      .select("slug")
+      .eq("slug", slug)
+      .single();
+
+    console.log(data);
+
+    if (data) return false;
+
+    return true;
+  });
+
+export const createCustomLink = actionClient.schema(customLinkSchema).action(
+  async ({
+    parsedInput: {
+      slug,
+      url,
+
+      expiration,
+      userId,
+    },
+  }) => {
+    const supabase = await createClient();
+
+    // Generate random slug if none provided
+    if (!slug) {
+      slug = await generateUniqueId();
+    }
+    slug = slugify(slug, { lower: true, strict: true });
+
+    // check if slug is available
+    const isAvailable = !slug || (await checkSlugAvailability({ slug }));
+
+    if (!isAvailable) {
+      return {
+        error: "Slug is already taken",
+      };
+    }
+
+    const { data, error } = await supabase
+      .from("links")
+      .insert([{ slug, url, user_id: userId, expiration }])
+      .select()
+      .single<LinkType>();
+
+    if (error) {
+      console.log(error);
+      return {
+        error: "Something went wrong",
+      };
+    }
+
+    return {
+      link: data.slug,
+    };
+  },
+);

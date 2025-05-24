@@ -4,17 +4,17 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { FC } from "react";
 
 interface RedirectPageProps {
-  params: Promise<{ alias: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 const RedirectPage: FC<RedirectPageProps> = async ({ params }) => {
-  const alias = (await params).alias;
+  const slug = (await params).slug;
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("links")
     .select()
-    .eq("alias", alias)
+    .eq("slug", slug)
     .single<LinkType>();
 
   if (error) {
