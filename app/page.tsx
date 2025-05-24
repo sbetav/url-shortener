@@ -6,16 +6,25 @@ import {
   IconArrowRight,
   IconCalendarClock,
   IconChainLink,
+  IconOpenLink,
   IconPieChart2,
 } from "@intentui/icons";
 import Link from "next/link";
 import { FC } from "react";
+import { LinkType } from "@/types";
+import { link } from "fs";
+import { cn } from "@/utils/classes";
 
 export default async function Home() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const { data: links } = await supabase
+    .from("links")
+    .select<"*", LinkType>("*")
+    .eq("user_id", user?.id)
+    .limit(3);
 
   return (
     <div className="min-h-content-min-height flex w-full items-center justify-center">
@@ -51,17 +60,46 @@ export default async function Home() {
             <LoginModal
               trigger={
                 <Button intent="plain" className="text-primary group">
-                 Create an account
+                  Create an account
                   <IconArrowRight className="transition-all group-hover:translate-x-1" />
                 </Button>
               }
             />
           </section>
         ) : (
-          <section className="flex w-full flex-col items-center justify-center gap-3">
-            <h2 className="text-center text-2xl font-semibold">
-              You have created 0 links
-            </h2>
+          <section className="flex w-full flex-col items-center justify-center gap-4">
+            <div>
+              <h2 className="text-center text-2xl font-semibold">
+                You have created {links?.length} link
+                {links?.length === 1 ? "" : "s"}
+              </h2>
+              <p className="text-muted-fg text-center">
+                {links?.length
+                  ? "Here are some of your recently shortened links"
+                  : "Shorten your first link to get started"}
+              </p>
+            </div>
+            {link.length && (
+              <div
+                className={cn(
+                  "mt-1 flex w-full flex-col items-center justify-center gap-3 sm:flex-row",
+                )}
+              >
+                {links?.map((l) => (
+                  <Link
+                    key={l.id}
+                    title={l.url}
+                    href={`/${l.slug}`}
+                    target="_blank"
+                    className="border-border group flex w-full items-center justify-between rounded-xl border bg-neutral-950 px-4 py-2 transition-all hover:bg-neutral-900 sm:max-w-[220px]"
+                  >
+                    <p>{l.slug}</p>
+
+                    <IconOpenLink className="text-muted-fg group-hover:text-primary size-5 transition-all" />
+                  </Link>
+                ))}
+              </div>
+            )}
             <Link
               href="/my-links"
               className="text-primary group flex cursor-pointer items-center justify-center gap-1 text-center"
