@@ -1,8 +1,8 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 
-import { IconClipboard } from "@intentui/icons";
+import { IconCheck, IconClipboard } from "@intentui/icons";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -19,7 +19,6 @@ import {
   EmailIcon,
   EmailShareButton,
 } from "next-share";
-import { toast } from "sonner";
 import { Tooltip } from "./ui/tooltip";
 import { Separator } from "./ui/separator";
 import { buttonStyles } from "./ui/button";
@@ -44,9 +43,11 @@ const shareButtons = [
 ];
 
 const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
+  const [isCopied, setIsCopied] = useState(false);
   const copyToClipboard = async () => {
     navigator.clipboard.writeText(url);
-    toast.success("Copied to clipboard");
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
   };
 
   return (
@@ -62,7 +63,7 @@ const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
             className={buttonStyles({ size: "square-petite" })}
             onPress={copyToClipboard}
           >
-            <IconClipboard />
+            {isCopied ? <IconCheck /> : <IconClipboard />}
           </Tooltip.Trigger>
           <Tooltip.Content>Copy</Tooltip.Content>
         </Tooltip>
