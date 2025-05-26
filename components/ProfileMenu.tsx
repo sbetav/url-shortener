@@ -7,12 +7,14 @@ import { singOut } from "@/actions/auth.actions";
 import { IconLogout } from "@intentui/icons";
 import { Menu } from "./ui/menu";
 import { Avatar } from "./ui/avatar";
+import { usePathname } from "next/navigation";
 
 interface ProfileMenuProps {
   user: User | null;
 }
 
 const ProfileMenu: FC<ProfileMenuProps> = ({ user }) => {
+  const pathname = usePathname();
   return (
     <Menu>
       <Menu.Trigger className="cursor-pointer transition-all hover:opacity-75">
@@ -23,7 +25,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ user }) => {
         />
       </Menu.Trigger>
       <Menu.Content placement="bottom" showArrow>
-        <Menu.Item onAction={singOut}>
+        <Menu.Item onAction={() => singOut(pathname)}>
           <IconLogout />
           Logout
         </Menu.Item>

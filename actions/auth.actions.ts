@@ -1,5 +1,6 @@
 "use server";
 
+import { protectedRoutes } from "@/utils/supabase/middleware";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -20,7 +21,11 @@ export async function signInWithGoogle() {
   redirect(data.url);
 }
 
-export async function singOut() {
+export async function singOut(path: string) {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
+  error && console.log(error);
+  if (protectedRoutes.includes(path)) {
+    redirect("/");
+  }
 }
