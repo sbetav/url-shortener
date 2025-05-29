@@ -19,6 +19,7 @@ const Toast = ({ ...props }: ToasterProps) => {
           cancelButton:
             "bg-transparent! hover:bg-secondary! hover:text-secondary-fg!",
           closeButton: "close-button",
+          success: "!border-primary !bg-[#2F3B1A] !text-[#D6FA85]",
         },
       }}
       {...props}
