@@ -2,12 +2,13 @@ import { LinkType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { FC } from "react";
-import ShareLinkActions from "@/components/ShareLinkActions";
+import ShareLinkActions from "@/components/links/ShareLinkActions";
 import { IconArrowLeft } from "@intentui/icons";
 import PageConfetti from "@/components/Confetti";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Note } from "@/components/ui/note";
+import { SITE_URL } from "@/utils/constants";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -27,7 +28,7 @@ const Page: FC<PageProps> = async ({ params }) => {
     redirect("/not-found");
   }
 
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.slug}`;
+  const url = `${SITE_URL}/${data.slug}`;
 
   return (
     <div className="min-h-content-min-height flex w-full flex-col items-center justify-center gap-5">

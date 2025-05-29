@@ -2,25 +2,17 @@
 
 import { LinkType } from "@/types";
 import { FC, useEffect, useState } from "react";
-import { Badge } from "../ui/badge";
 import {
   IconChevronLgDown,
-  IconCirclePlus,
-  IconClipboard,
-  IconDotsVertical,
-  IconPencilBox,
-  IconSearch,
-  IconTrash,
+  IconCirclePlus, IconSearch
 } from "@intentui/icons";
-import Link from "next/link";
 import { TextField } from "../ui/text-field";
-import { formatDistance } from "date-fns";
 import { Menu } from "../ui/menu";
 import { Button } from "../ui/button";
 import { Selection } from "react-aria-components";
-import CustomLinkModal from "../CustomLinkModal";
+import CustomLinkModal from "./CustomLinkModal";
 import { User } from "@supabase/supabase-js";
-import { copyToClipboard } from "@/utils/copy-to-clipboard";
+import LinkCard from "./LinkCard";
 
 interface UserLinksProps {
   links: LinkType[];
@@ -142,60 +134,7 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
         </p>
       ) : (
         <section className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredLinks?.map((link) => (
-            <Link
-              key={link.id}
-              href={`/links/${link.slug}`}
-              className="border-border group w-full rounded-xl border bg-neutral-950/80 px-6 pt-3 pb-5 transition-all hover:bg-neutral-900/40"
-            >
-              <div className="flex w-full items-center justify-between">
-                <p className="text-lg font-semibold tracking-tight">
-                  {link.slug}
-                </p>
-                <Menu>
-                  <Menu.Trigger className="hover:border-border hover:bg-secondary -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all">
-                    <IconDotsVertical />
-                  </Menu.Trigger>
-                  <Menu.Content placement="bottom">
-                  <Menu.Item>
-                      <IconPencilBox />
-                      Edit link
-                    </Menu.Item>
-                    <Menu.Item onAction={() => copyToClipboard(link.url)}>
-                      <IconClipboard />
-                      Copy URL
-                    </Menu.Item>
-                    <Menu.Item isDanger>
-                      <IconTrash />
-                      Delete
-                    </Menu.Item>
-                  </Menu.Content>
-                </Menu>
-              </div>
-              <p className="text-muted-fg mt-2 line-clamp-1 text-sm">
-                {link.url}
-              </p>
-              <div className="mt-3 space-x-2">
-                <Badge>
-                  {link.clickCount || 0} click{link.clickCount === 1 ? "" : "s"}
-                </Badge>
-                {link.expiration && (
-                  <Badge intent="warning">
-                    Expires{" "}
-                    {formatDistance(link.expiration, new Date(), {
-                      addSuffix: true,
-                    })}
-                  </Badge>
-                )}
-              </div>
-              <div className="bg-secondary/60 border-border text-muted-fg mt-4 w-full rounded-md border px-2 py-1.5 text-center text-xs font-medium">
-                Created{" "}
-                {formatDistance(link.created_at, new Date(), {
-                  addSuffix: true,
-                })}
-              </div>
-            </Link>
-          ))}
+          {filteredLinks?.map((link) => <LinkCard key={link.id} link={link} />)}
         </section>
       )}
     </div>

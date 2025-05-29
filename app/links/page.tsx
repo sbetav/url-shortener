@@ -1,4 +1,4 @@
-import UserLinks from "@/components/manage-links/UserLinks";
+import UserLinks from "@/components/links/UserLinks";
 import { LinkType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 import { IconChevronLeft } from "@intentui/icons";
@@ -25,12 +25,12 @@ const Page: FC<PageProps> = async ({}) => {
         .from("clicks")
         .select("*", { count: "exact", head: true })
         .eq("link_id", link.id);
-      
+
       return {
         ...link,
         clickCount: count || 0,
       };
-    })
+    }),
   );
 
   return (

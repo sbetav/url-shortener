@@ -12,7 +12,7 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Loader } from "./ui/loader";
 import { User } from "@supabase/supabase-js";
-import CustomLinkModal from "./CustomLinkModal";
+import CustomLinkModal from "./links/CustomLinkModal";
 import { IconSettings } from "@intentui/icons";
 
 interface HomeInputProps {

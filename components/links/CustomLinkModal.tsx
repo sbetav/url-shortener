@@ -1,29 +1,29 @@
 "use client";
 
 import { FC, useEffect, useState } from "react";
-import { Modal } from "./ui/modal";
-import { Button } from "./ui/button";
+import { Modal } from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
 import { IconCheck, IconCircleX } from "@intentui/icons";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { customLinkSchema } from "@/utils/schemas";
 import { Form } from "react-aria-components";
-import { TextField } from "./ui/text-field";
-import { Switch } from "./ui/switch";
-import { Label } from "./ui/field";
+import { TextField } from "@/components/ui/text-field";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/field";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
   checkSlugAvailability,
   createCustomLink,
 } from "@/actions/link.actions";
 import { useAction } from "next-safe-action/hooks";
-import { DatePicker } from "./ui/date-picker";
+import { DatePicker } from "@/components/ui/date-picker";
 import { today } from "@internationalized/date";
 import { getLocalTimeZone } from "@internationalized/date";
 import { toast } from "sonner";
 import { useRouter } from "nextjs-toploader/app";
 import { User } from "@supabase/supabase-js";
-import { Loader } from "./ui/loader";
+import { Loader } from "@/components/ui/loader";
 
 interface CustomLinkModalProps {
   user: User;
