@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { Modal } from "./ui/modal";
 import { Button } from "./ui/button";
-import { IconCheck, IconCircleX, IconSettings } from "@intentui/icons";
+import { IconCheck, IconCircleX } from "@intentui/icons";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { customLinkSchema } from "@/utils/schemas";
@@ -27,9 +27,15 @@ import { Loader } from "./ui/loader";
 
 interface CustomLinkModalProps {
   user: User;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-const CustomLinkModal: FC<CustomLinkModalProps> = ({ user }) => {
+const CustomLinkModal: FC<CustomLinkModalProps> = ({
+  user,
+  isOpen,
+  onOpenChange,
+}) => {
   const router = useRouter();
 
   const {
@@ -53,16 +59,6 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({ user }) => {
   });
 
   const { useCustomSlug, useExpiration, slug } = watch();
-
-  const [isOpen, setIsOpen] = useState(false);
-  const onOpenChange = (open: boolean) => {
-    setIsOpen(open);
-    if (!open) {
-      setTimeout(() => {
-        reset();
-      }, 250);
-    }
-  };
 
   const { executeAsync } = useAction(checkSlugAvailability);
 
@@ -118,10 +114,6 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({ user }) => {
 
   return (
     <Modal>
-      <Button intent="secondary" onPress={() => setIsOpen(true)}>
-        <IconSettings />
-        Create a custom link
-      </Button>
       <Modal.Content
         isBlurred
         size="sm"

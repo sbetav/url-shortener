@@ -16,6 +16,7 @@
     "@react-stately/calendar": "^3.8.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
+    "date-fns": "^4.1.0",
     "nanoid": "^5.1.5",
     "next": "15.3.2",
     "next-safe-action": "^7.10.8",

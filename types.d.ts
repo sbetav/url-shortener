@@ -5,4 +5,5 @@ export interface LinkType {
   created_at: string;
   user_id: string | null;
   expiration: string | null;
+  clickCount?: number;
 }

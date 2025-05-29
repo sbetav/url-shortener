@@ -22,6 +22,7 @@ import {
 import { Tooltip } from "./ui/tooltip";
 import { Separator } from "./ui/separator";
 import { buttonStyles } from "./ui/button";
+import { copyToClipboard } from "@/utils/copy-to-clipboard";
 
 interface ShareLinkActionsProps {
   url: string;
@@ -44,11 +45,6 @@ const shareButtons = [
 
 const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const copyToClipboard = async () => {
-    navigator.clipboard.writeText(url);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
-  };
 
   return (
     <div className="space-y-4">
@@ -61,7 +57,11 @@ const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
           <Tooltip.Trigger
             aria-label="Copy"
             className={buttonStyles({ size: "square-petite" })}
-            onPress={copyToClipboard}
+            onPress={() => {
+              copyToClipboard(url, false);
+              setIsCopied(true);
+              setTimeout(() => setIsCopied(false), 2000);
+            }}
           >
             {isCopied ? <IconCheck /> : <IconClipboard />}
           </Tooltip.Trigger>
@@ -71,11 +71,11 @@ const ShareLinkActions: FC<ShareLinkActionsProps> = ({ url }) => {
 
       {/* Separator */}
       <div className="flex w-full items-center justify-center gap-4">
-        <Separator className="w-full"/>
+        <Separator className="w-full" />
         <span className="text-muted-fg text-center text-xs font-medium tracking-wider text-nowrap uppercase">
           Share to socials
         </span>
-        <Separator className="w-full"/>
+        <Separator className="w-full" />
       </div>
 
       {/* Social Icons */}

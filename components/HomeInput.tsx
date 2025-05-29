@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ import { Separator } from "./ui/separator";
 import { Loader } from "./ui/loader";
 import { User } from "@supabase/supabase-js";
 import CustomLinkModal from "./CustomLinkModal";
+import { IconSettings } from "@intentui/icons";
 
 interface HomeInputProps {
   user?: User | null;
@@ -51,6 +52,16 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
     }
   });
 
+  const [isOpen, setIsOpen] = useState(false);
+  const onOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setTimeout(() => {
+        reset();
+      }, 250);
+    }
+  };
+
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4">
       <div className="relative w-full">
@@ -85,7 +96,15 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
             <span className="text-muted-fg text-sm">Or</span>
             <Separator className="w-full" />
           </div>
-          <CustomLinkModal user={user} />
+          <Button intent="secondary" onPress={() => setIsOpen(true)}>
+            <IconSettings />
+            Create a custom link
+          </Button>
+          <CustomLinkModal
+            user={user}
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+          />
         </>
       )}
     </div>

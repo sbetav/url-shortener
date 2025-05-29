@@ -18,8 +18,23 @@ const Page: FC<PageProps> = async ({}) => {
     .eq("user_id", user?.id)
     .order("created_at", { ascending: false });
 
+  // Fetch click counts for each link
+  const linksWithClicks = await Promise.all(
+    (links || []).map(async (link) => {
+      const { count } = await supabase
+        .from("clicks")
+        .select("*", { count: "exact", head: true })
+        .eq("link_id", link.id);
+      
+      return {
+        ...link,
+        clickCount: count || 0,
+      };
+    })
+  );
+
   return (
-    <div className="min-h-content-min-height flex flex-col items-center gap-8 py-10 md:px-10">
+    <div className="min-h-content-min-height flex flex-col items-center gap-8 py-10">
       <div className="w-full">
         <Link
           href="/"
@@ -32,7 +47,7 @@ const Page: FC<PageProps> = async ({}) => {
       <h1 className="bg-gradient-to-r from-white to-stone-400 bg-clip-text text-center text-5xl font-semibold tracking-tight text-transparent">
         Your links
       </h1>
-      <UserLinks links={links || []} />
+      <UserLinks links={linksWithClicks} user={user!} />
     </div>
   );
 };
