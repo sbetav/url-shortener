@@ -7,3 +7,11 @@ export interface LinkType {
   expiration: string | null;
   clickCount?: number;
 }
+
+export interface ClickStats {
+  country: string;
+  count: number;
+  clicks: {
+    created_at: string;
+  }[];
+}

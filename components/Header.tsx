@@ -14,7 +14,7 @@ const Header: FC<HeaderProps> = async ({}) => {
     data: { user },
   } = await supabase.auth.getUser();
   return (
-    <header className="sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-3xl border border-white/10 bg-black/10 px-3.5 py-2.5 backdrop-blur-lg">
+    <header className="sticky top-6 z-50 flex w-full max-w-screen items-center justify-between rounded-3xl border border-white/10 bg-bg/20 px-3.5 py-2.5 backdrop-blur-lg">
       <Link
         href="/"
         className="flex items-center justify-center gap-0.5 transition-all hover:opacity-75"

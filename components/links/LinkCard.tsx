@@ -21,7 +21,7 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
     <Link
       key={link.id}
       href={`/links/${link.slug}`}
-      className="border-border group w-full rounded-xl border bg-neutral-950/80 px-6 pt-3 pb-5 transition-all hover:bg-neutral-900/40"
+      className="border-border group bg-bg/20 w-full rounded-xl border px-6 pt-3 pb-5 transition-all hover:bg-neutral-900/40"
     >
       <div className="flex w-full items-center justify-between">
         <p className="text-lg font-semibold tracking-tight">{link.slug}</p>
@@ -55,9 +55,11 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
         {link.expiration && (
           <Badge intent="warning">
             Expires{" "}
-            {formatDistanceToNowStrict(link.expiration, {
-              addSuffix: true,
-            })}
+            {new Date(link.expiration) > new Date()
+              ? formatDistanceToNowStrict(link.expiration, {
+                  addSuffix: true,
+                })
+              : "today"}
           </Badge>
         )}
       </div>

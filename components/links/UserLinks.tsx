@@ -90,7 +90,7 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
             placeholder="Search by slug or URL"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e)}
-            className="w-full bg-neutral-950"
+            className="w-full bg-bg/20"
           />
           <Menu>
             <Button intent="outline" className="group whitespace-nowrap">
