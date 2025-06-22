@@ -9,7 +9,7 @@ import {
   IconOpenLink,
   IconPieChart2,
 } from "@intentui/icons";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { FC } from "react";
 import { LinkType } from "@/types";
 import { link } from "fs";
@@ -89,9 +89,7 @@ export default async function Home() {
                 {links?.slice(0, 3).map((l) => (
                   <Link
                     key={l.id}
-                    title={l.url}
-                    href={`/${l.slug}`}
-                    target="_blank"
+                    href={`/links/${l.slug}`}
                     className="border-border group flex w-full items-center justify-between rounded-xl border bg-neutral-950 px-4 py-2 transition-all hover:bg-neutral-900 sm:max-w-[220px]"
                   >
                     <p>{l.slug}</p>

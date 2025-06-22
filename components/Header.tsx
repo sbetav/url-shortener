@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { FC } from "react";
 import { IconBrandGithub, IconPaperclip } from "@intentui/icons";
 import { createClient } from "@/utils/supabase/server";

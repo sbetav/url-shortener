@@ -2,9 +2,7 @@ import ClicksOverTime from "@/components/links/ClicksOverTime";
 import CountriesChart from "@/components/links/CountriesChart";
 import LinkDetailWrapper from "@/components/links/LinkDetailWrapper";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Note } from "@/components/ui/note";
-
 import { Separator } from "@/components/ui/separator";
 import { ClickStats, LinkType } from "@/types";
 import { SITE_URL } from "@/utils/constants";
@@ -13,13 +11,12 @@ import {
   IconCainLink3,
   IconChevronLeft,
   IconCursorClick,
-  IconPencilBox,
-  IconTrash,
 } from "@intentui/icons";
 import { format } from "date-fns";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { redirect } from "next/navigation";
 import { FC } from "react";
+import LinkActionButtons from "@/components/links/LinkActionButtons";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -104,8 +101,6 @@ const Page: FC<PageProps> = async ({ params }) => {
     [] as { date: string; count: number }[],
   );
 
-  console.log(clicksByDay);
-
   return (
     <section className="bg-bg/20 border-border my-8 w-full space-y-6 rounded-3xl border px-6 py-4 sm:px-10 sm:py-7">
       <div className="flex items-center justify-between">
@@ -128,19 +123,15 @@ const Page: FC<PageProps> = async ({ params }) => {
             )}
         </div>
         <div className="flex items-center gap-3">
-          <Button size="small">
-            <IconPencilBox className="size-4" />
-            Edit
-          </Button>
-          <Button intent="secondary" size="small">
-            <IconTrash className="size-4" />
-            Delete
-          </Button>
+          <LinkActionButtons linkId={data.id} userId={data.user_id || ""} />
         </div>
       </div>
 
       <Separator className="w-full" />
-
+      <Note intent="info">
+        If not activity is detected for a link, it will be automatically deleted
+        after 30 days.
+      </Note>
       <div className="flex flex-col gap-5">
         <div className="flex w-full gap-5">
           <LinkDetailWrapper>
@@ -179,10 +170,6 @@ const Page: FC<PageProps> = async ({ params }) => {
 
         <CountriesChart countries={clicksByCountry} />
         {clicksByDay && <ClicksOverTime link={data} clicks={clicksByDay} />}
-        <Note intent="info">
-          If not activity is detected for a link, it will be automatically
-          deleted after 30 days.
-        </Note>
       </div>
     </section>
   );

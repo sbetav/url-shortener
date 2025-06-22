@@ -19,9 +19,9 @@ import {
   EmailIcon,
   EmailShareButton,
 } from "next-share";
-import { Tooltip } from "./ui/tooltip";
-import { Separator } from "./ui/separator";
-import { buttonStyles } from "./ui/button";
+import { Tooltip } from "../ui/tooltip";
+import { Separator } from "../ui/separator";
+import { buttonStyles } from "../ui/button";
 import { copyToClipboard } from "@/utils/copy-to-clipboard";
 
 interface ShareLinkActionsProps {

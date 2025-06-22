@@ -7,6 +7,7 @@ import { createClient } from "@/utils/supabase/server";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 async function generateUniqueId(): Promise<string> {
   const supabase = await createClient();
@@ -125,3 +126,23 @@ export const createCustomLink = actionClient.schema(customLinkSchema).action(
     };
   },
 );
+
+export const deleteLink = actionClient
+  .schema(z.object({ linkId: z.string(), userId: z.string() }))
+  .action(async ({ parsedInput: { linkId, userId } }) => {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("links")
+      .delete()
+      .eq("id", linkId)
+      .eq("user_id", userId);
+    if (error) {
+      return {
+        error: "Something went wrong",
+      };
+    }
+    revalidatePath("/");
+    return {
+      success: true,
+    };
+  });

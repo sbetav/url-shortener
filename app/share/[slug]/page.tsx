@@ -5,7 +5,7 @@ import { FC } from "react";
 import ShareLinkActions from "@/components/links/ShareLinkActions";
 import { IconArrowLeft } from "@intentui/icons";
 import PageConfetti from "@/components/Confetti";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { Card } from "@/components/ui/card";
 import { Note } from "@/components/ui/note";
 import { SITE_URL } from "@/utils/constants";

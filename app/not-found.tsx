@@ -1,5 +1,5 @@
 import { IconArrowLeft } from "@intentui/icons";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { FC } from "react";
 
 interface notFoundProps {}

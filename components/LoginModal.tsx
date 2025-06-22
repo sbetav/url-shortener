@@ -3,7 +3,7 @@
 import { FC, JSX } from "react";
 import { IconBrandGoogle } from "@intentui/icons";
 import { signInWithGoogle } from "@/actions/auth.actions";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { Button } from "./ui/button";
 import { Modal } from "./ui/modal";
 
