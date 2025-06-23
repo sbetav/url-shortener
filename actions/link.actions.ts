@@ -141,8 +141,59 @@ export const deleteLink = actionClient
         error: "Something went wrong",
       };
     }
-    revalidatePath("/");
+    revalidatePath("/ ");
     return {
       success: true,
     };
   });
+
+export const updateLink = actionClient
+  .schema(
+    z.object({
+      linkId: z.string(),
+      userId: z.string(),
+      slug: z.string().optional(),
+      url: z.string().url().optional(),
+      expiration: z.string().optional().nullable(),
+    }),
+  )
+  .action(
+    async ({ parsedInput: { linkId, userId, slug, url, expiration } }) => {
+      const supabase = await createClient();
+
+      if (slug) {
+        const { data } = await supabase
+          .from("links")
+          .select("id")
+          .eq("slug", slug)
+          .neq("id", linkId)
+          .single();
+
+        if (data) {
+          return {
+            error: "Slug is already taken",
+          };
+        }
+      }
+
+      const { error } = await supabase
+        .from("links")
+        .update({
+          slug,
+          url,
+          expiration,
+        })
+        .eq("id", linkId)
+        .eq("user_id", userId);
+
+      if (error) {
+        return {
+          error: "Something went wrong",
+        };
+      }
+      revalidatePath("/");
+      return {
+        success: true,
+      };
+    },
+  );

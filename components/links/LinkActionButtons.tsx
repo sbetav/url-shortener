@@ -4,17 +4,22 @@ import { Button } from "../ui/button";
 import { IconPencilBox, IconTrash } from "@intentui/icons";
 import { FC, useState } from "react";
 import { DeleteLinkModal } from "./DeleteLinkModal";
-
+import { EditLinkModal } from "./EditLinkModal";
+import { LinkType } from "@/types";
 interface LinkActionButtonsProps {
-  linkId: string;
   userId: string;
+  link: LinkType;
 }
 
-const LinkActionButtons: FC<LinkActionButtonsProps> = ({ linkId, userId }) => {
+const LinkActionButtons: FC<LinkActionButtonsProps> = ({
+  userId,
+  link,
+}) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   return (
     <div className="flex items-center gap-2">
-      <Button size="small">
+      <Button size="small" onPress={() => setIsEditModalOpen(true)}>
         <IconPencilBox className="size-4" />
         Edit
       </Button>
@@ -29,8 +34,13 @@ const LinkActionButtons: FC<LinkActionButtonsProps> = ({ linkId, userId }) => {
       <DeleteLinkModal
         isOpen={isDeleteModalOpen}
         onOpenChange={setIsDeleteModalOpen}
-        linkId={linkId}
+        linkId={link.id}
         userId={userId}
+      />
+      <EditLinkModal
+        isOpen={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        link={link}
       />
     </div>
   );

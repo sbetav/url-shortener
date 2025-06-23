@@ -123,14 +123,14 @@ const Page: FC<PageProps> = async ({ params }) => {
             )}
         </div>
         <div className="flex items-center gap-3">
-          <LinkActionButtons linkId={data.id} userId={data.user_id || ""} />
+          <LinkActionButtons link={data} userId={data.user_id || ""} />
         </div>
       </div>
 
       <Separator className="w-full" />
       <Note intent="info">
-        If not activity is detected for a link, it will be automatically deleted
-        after 30 days.
+        If no activity is detected within 30 days, the link will be
+        automatically deleted.
       </Note>
       <div className="flex flex-col gap-5">
         <div className="flex w-full gap-5">
@@ -150,7 +150,7 @@ const Page: FC<PageProps> = async ({ params }) => {
               <IconCainLink3 className="text-muted-fg size-5" />
             </div>
             <div className="mt-2 flex gap-3">
-              <div className="border-border bg-secondary/60 w-full rounded-md border px-2.5 pt-0.5 pb-1.5">
+              <div className="border-border bg-secondary/60 w-full rounded-md border px-3 pt-0.5 pb-1.5">
                 <span className="text-muted-fg text-xs">URL</span>
                 <p className="line-clamp-1 max-w-[200px] text-sm">{linkUrl}</p>
               </div>

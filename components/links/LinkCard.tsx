@@ -4,7 +4,7 @@ import { LinkType } from "@/types";
 import {
   IconClipboard,
   IconDotsVertical,
-  IconPencilBox,
+  IconPin,
   IconTrash,
 } from "@intentui/icons";
 
@@ -33,7 +33,7 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
           userId={link.user_id}
         />
       )}
-      <div className="border-border group bg-bg/20 relative w-full rounded-xl border p-4 transition-all hover:bg-neutral-900/40">
+      <div className="border-border group bg-bg/20 relative w-full rounded-xl border px-4 pt-3 pb-4 transition-all hover:bg-neutral-900/40">
         <Link href={`/links/${link.slug}`} className="absolute inset-0 z-0" />
         <div className="relative z-10 flex w-full items-center justify-between">
           <p className="text-lg font-semibold tracking-tight">{link.slug}</p>
@@ -42,9 +42,9 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
               <IconDotsVertical />
             </Menu.Trigger>
             <Menu.Content placement="bottom">
-              <Menu.Item href={`/links/${link.slug}`}>
-                <IconPencilBox />
-                Edit link
+              <Menu.Item>
+                <IconPin />
+                Pin
               </Menu.Item>
               <Menu.Item
                 onAction={() => copyToClipboard(`${SITE_URL}/${link.slug}`)}
