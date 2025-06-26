@@ -10,6 +10,7 @@ import { Selection } from "react-aria-components";
 import CustomLinkModal from "./CustomLinkModal";
 import { User } from "@supabase/supabase-js";
 import LinkCard from "./LinkCard";
+import { Pagination } from "../ui/pagination";
 
 interface UserLinksProps {
   links: LinkType[];
@@ -111,11 +112,22 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
     setFilteredLinks([...pinnedLinks, ...unpinnedLinks]);
   }, [searchQuery, links, sortBy]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
+  const totalPages = Math.ceil(filteredLinks.length / itemsPerPage);
+
+  const paginatedLinks = filteredLinks.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
   return (
     <div className="w-full space-y-7">
       <div className="flex flex-col items-center gap-3 sm:flex-row">
         <div className="flex w-full items-center gap-3">
           <TextField
+            aria-label="Search by slug or URL"
             prefix={<IconSearch className="size-4" />}
             placeholder="Search by slug or URL"
             value={searchQuery}
@@ -123,7 +135,11 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
             className="bg-bg/20 w-full"
           />
           <Menu>
-            <Button intent="outline" className="group whitespace-nowrap">
+            <Button
+              aria-label="Sort by"
+              intent="outline"
+              className="group whitespace-nowrap"
+            >
               Sort by
               <IconChevronLgDown className="group-pressed:rotate-180 duration-200" />
             </Button>
@@ -135,7 +151,7 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
               items={sortOptions}
             >
               {(item) => (
-                <Menu.Item key={item.id}>
+                <Menu.Item key={item.id} aria-label={item.label}>
                   <Menu.Label>{item.label}</Menu.Label>
                 </Menu.Item>
               )}
@@ -143,6 +159,7 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
           </Menu>
         </div>
         <Button
+          aria-label="Create link"
           size="small"
           onPress={() => setIsOpen(true)}
           className="w-full sm:w-auto"
@@ -164,10 +181,58 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
         </p>
       ) : (
         <section className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredLinks?.map((link) => {
+          {paginatedLinks?.map((link) => {
             return <LinkCard key={link.id} link={link} />;
           })}
         </section>
+      )}
+      {filteredLinks?.length > itemsPerPage && (
+        <div className="mt-4 flex justify-end">
+          <Pagination>
+            <Pagination.List>
+              {totalPages > 2 && (
+                <Pagination.Item
+                  aria-label="First page"
+                  segment="first"
+                  isDisabled={currentPage === 1}
+                  onAction={() => setCurrentPage(1)}
+                />
+              )}
+              <Pagination.Item
+                aria-label="Previous page"
+                segment="previous"
+                isDisabled={currentPage === 1}
+                onAction={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              />
+              {Array.from({ length: totalPages }, (_, i) => (
+                <Pagination.Item
+                  aria-label={`Page ${i + 1}`}
+                  key={i + 1}
+                  isCurrent={currentPage === i + 1}
+                  onAction={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Item
+                aria-label="Next page"
+                segment="next"
+                isDisabled={currentPage === totalPages}
+                onAction={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
+              />
+              {totalPages > 2 && (
+                <Pagination.Item
+                  aria-label="Last page"
+                  segment="last"
+                  isDisabled={currentPage === totalPages}
+                  onAction={() => setCurrentPage(totalPages)}
+                />
+              )}
+            </Pagination.List>
+          </Pagination>
+        </div>
       )}
     </div>
   );

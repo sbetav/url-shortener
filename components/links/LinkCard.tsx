@@ -51,7 +51,7 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
 
             <button
               aria-label="Copy URL"
-              className="bg-primary text-primary-fg flex cursor-pointer items-center justify-center gap-1 rounded-[5px] p-1 pr-1.5 text-xs font-medium"
+              className="bg-primary/15 text-primary/85 hover:bg-primary/20 hover:text-primary flex cursor-pointer items-center justify-center gap-1 rounded-[5px] p-1 pr-1.5 text-xs font-medium transition-all"
               onClick={() => {
                 copyToClipboard(`${SITE_URL}/${link.slug}`, false);
                 setIsCopied(true);
@@ -67,11 +67,15 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
             </button>
           </div>
           <Menu>
-            <Menu.Trigger className="hover:border-border hover:bg-secondary -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all">
+            <Menu.Trigger
+              aria-label="Link actions"
+              className="hover:border-border hover:bg-secondary -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all"
+            >
               <IconDotsVertical />
             </Menu.Trigger>
             <Menu.Content placement="bottom">
               <Menu.Item
+                aria-label="Pin link"
                 onAction={() =>
                   execute({
                     linkId: link.id,
@@ -89,7 +93,11 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
                   "Pin"
                 )}
               </Menu.Item>
-              <Menu.Item isDanger onAction={() => setDeleteModalOpen(true)}>
+              <Menu.Item
+                isDanger
+                aria-label="Delete link"
+                onAction={() => setDeleteModalOpen(true)}
+              >
                 <IconTrash />
                 Delete
               </Menu.Item>

@@ -42,8 +42,8 @@ export const DeleteLinkModal: FC<DeleteLinkModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-      <Modal.Content role="alertdialog" isBlurred>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} >
+      <Modal.Content role="alertdialog" isBlurred >
         <Modal.Header>
           <Modal.Title>Delete Link</Modal.Title>
           <Modal.Description>

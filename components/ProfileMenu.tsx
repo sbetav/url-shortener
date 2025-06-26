@@ -17,7 +17,10 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ user }) => {
   const pathname = usePathname();
   return (
     <Menu>
-      <Menu.Trigger className="cursor-pointer transition-all hover:opacity-75">
+      <Menu.Trigger
+        aria-label="Profile menu"
+        className="cursor-pointer transition-all hover:opacity-75"
+      >
         <Avatar
           src={user?.user_metadata.avatar_url}
           initials={user?.user_metadata.name[0]}
@@ -25,7 +28,7 @@ const ProfileMenu: FC<ProfileMenuProps> = ({ user }) => {
         />
       </Menu.Trigger>
       <Menu.Content placement="bottom" showArrow>
-        <Menu.Item onAction={() => singOut(pathname)}>
+        <Menu.Item aria-label="Logout" onAction={() => singOut(pathname)}>
           <IconLogout />
           Logout
         </Menu.Item>
