@@ -197,3 +197,23 @@ export const updateLink = actionClient
       };
     },
   );
+
+export const toggleLinkPin = actionClient
+  .schema(z.object({ linkId: z.string(), userId: z.string(), pinned: z.boolean() }))
+  .action(async ({ parsedInput: { linkId, userId, pinned } }) => {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("links")
+      .update({ pinned })
+      .eq("id", linkId)
+      .eq("user_id", userId);
+    if (error) {
+      return {
+        error: "Something went wrong",
+      };
+    }
+    revalidatePath("/");
+    return {
+      success: true,
+    };
+  });

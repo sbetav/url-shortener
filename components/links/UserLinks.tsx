@@ -2,10 +2,7 @@
 
 import { LinkType } from "@/types";
 import { FC, useEffect, useState } from "react";
-import {
-  IconChevronLgDown,
-  IconCirclePlus, IconSearch
-} from "@intentui/icons";
+import { IconChevronLgDown, IconCirclePlus, IconSearch } from "@intentui/icons";
 import { TextField } from "../ui/text-field";
 import { Menu } from "../ui/menu";
 import { Button } from "../ui/button";
@@ -28,7 +25,13 @@ type SortOption =
 
 const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredLinks, setFilteredLinks] = useState<LinkType[]>(links);
+  const [filteredLinks, setFilteredLinks] = useState<LinkType[]>(
+    links.sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return 0;
+    }),
+  );
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [selectedKeys, setSelectedKeys] = useState<Selection>(
     new Set(["newest"]),
@@ -64,8 +67,12 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
       return terms.every((term) => slug.includes(term) || url.includes(term));
     });
 
-    // Apply sorting
-    const sorted = [...filtered].sort((a, b) => {
+    // Split into pinned and unpinned
+    const pinnedLinks = filtered.filter((link) => link.pinned);
+    const unpinnedLinks = filtered.filter((link) => !link.pinned);
+
+    // Sorting function
+    const sortFn = (a: LinkType, b: LinkType) => {
       switch (sortBy) {
         case "newest":
           return (
@@ -94,9 +101,14 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
         default:
           return 0;
       }
-    });
+    };
 
-    setFilteredLinks(sorted);
+    // Sort each group
+    pinnedLinks.sort(sortFn);
+    unpinnedLinks.sort(sortFn);
+
+    // Concatenate pinned first
+    setFilteredLinks([...pinnedLinks, ...unpinnedLinks]);
   }, [searchQuery, links, sortBy]);
 
   return (
@@ -108,7 +120,7 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
             placeholder="Search by slug or URL"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e)}
-            className="w-full bg-bg/20"
+            className="bg-bg/20 w-full"
           />
           <Menu>
             <Button intent="outline" className="group whitespace-nowrap">
@@ -152,7 +164,9 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
         </p>
       ) : (
         <section className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredLinks?.map((link) => <LinkCard key={link.id} link={link} />)}
+          {filteredLinks?.map((link) => {
+            return <LinkCard key={link.id} link={link} />;
+          })}
         </section>
       )}
     </div>

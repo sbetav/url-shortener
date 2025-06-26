@@ -6,6 +6,7 @@ export interface LinkType {
   user_id: string | null;
   expiration: string | null;
   clickCount?: number;
+  pinned?: boolean;
 }
 
 export interface ClickStats {

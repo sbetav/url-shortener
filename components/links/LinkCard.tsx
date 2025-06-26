@@ -6,7 +6,9 @@ import {
   IconClipboard,
   IconDotsVertical,
   IconPin,
+  IconLoader,
   IconTrash,
+  IconPin2,
 } from "@intentui/icons";
 
 import { FC, useState } from "react";
@@ -17,6 +19,8 @@ import { Menu } from "../ui/menu";
 import { DeleteLinkModal } from "./DeleteLinkModal";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Link } from "../ui/link";
+import { useAction } from "next-safe-action/hooks";
+import { toggleLinkPin } from "@/actions/link.actions";
 
 interface LinkCardProps {
   link: LinkType;
@@ -25,6 +29,9 @@ interface LinkCardProps {
 const LinkCard: FC<LinkCardProps> = ({ link }) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+
+  const { execute, isExecuting } = useAction(toggleLinkPin);
+
   return (
     <>
       {link.user_id && (
@@ -39,11 +46,12 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
         <Link href={`/links/${link.slug}`} className="absolute inset-0 z-0" />
         <div className="relative z-10 flex w-full items-center justify-between">
           <div className="flex items-center gap-2">
+            {link.pinned && <IconPin2 className="text-primary size-[18px]" />}
             <p className="text-lg font-semibold tracking-tight">{link.slug}</p>
 
             <button
               aria-label="Copy URL"
-              className="bg-primary text-primary-fg flex cursor-pointer items-center justify-center gap-1 rounded p-1 text-xs font-medium"
+              className="bg-primary text-primary-fg flex cursor-pointer items-center justify-center gap-1 rounded-[5px] p-1 pr-1.5 text-xs font-medium"
               onClick={() => {
                 copyToClipboard(`${SITE_URL}/${link.slug}`, false);
                 setIsCopied(true);
@@ -63,9 +71,23 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
               <IconDotsVertical />
             </Menu.Trigger>
             <Menu.Content placement="bottom">
-              <Menu.Item>
+              <Menu.Item
+                onAction={() =>
+                  execute({
+                    linkId: link.id,
+                    userId: link.user_id!,
+                    pinned: !link.pinned,
+                  })
+                }
+              >
                 <IconPin />
-                Pin
+                {isExecuting ? (
+                  <IconLoader className="size-3.5 animate-spin" />
+                ) : link.pinned ? (
+                  "Unpin"
+                ) : (
+                  "Pin"
+                )}
               </Menu.Item>
               <Menu.Item isDanger onAction={() => setDeleteModalOpen(true)}>
                 <IconTrash />
