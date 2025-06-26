@@ -42,28 +42,31 @@ export const DeleteLinkModal: FC<DeleteLinkModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} >
-      <Modal.Content role="alertdialog" isBlurred >
-        <Modal.Header>
-          <Modal.Title>Delete Link</Modal.Title>
-          <Modal.Description>
-            Are you sure you want to delete this link? This action cannot be
-            undone.
-          </Modal.Description>
-        </Modal.Header>
-        <Modal.Footer>
-          <Modal.Close isDisabled={isExecuting}>Cancel</Modal.Close>
-          <Button
-            intent="danger"
-            onPress={handleDelete}
-            isPending={isExecuting}
-            autoFocus
-          >
-            {isExecuting && <Loader />}
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal>
+    <Modal.Content
+      role="alertdialog"
+      isBlurred
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
+      <Modal.Header>
+        <Modal.Title>Delete Link</Modal.Title>
+        <Modal.Description>
+          Are you sure you want to delete this link? This action cannot be
+          undone.
+        </Modal.Description>
+      </Modal.Header>
+      <Modal.Footer>
+        <Modal.Close isDisabled={isExecuting}>Cancel</Modal.Close>
+        <Button
+          intent="danger"
+          onPress={handleDelete}
+          isPending={isExecuting}
+          autoFocus
+        >
+          {isExecuting && <Loader />}
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal.Content>
   );
 };

@@ -113,129 +113,119 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({
   }, [useCustomSlug, useExpiration]);
 
   return (
-    <Modal>
-      <Modal.Content
-        isBlurred
-        size="sm"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        isDismissable={!isPending}
-      >
-        <Form onSubmit={onSubmit}>
-          <Modal.Header>
-            <Modal.Title>Create new link</Modal.Title>
-            <Modal.Description>
-              Setup your link custom options
-            </Modal.Description>
-          </Modal.Header>
-          <Modal.Body className="space-y-5">
+    <Modal.Content
+      isBlurred
+      size="sm"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      isDismissable={!isPending}
+    >
+      <Form onSubmit={onSubmit}>
+        <Modal.Header>
+          <Modal.Title>Create new link</Modal.Title>
+          <Modal.Description>Setup your link custom options</Modal.Description>
+        </Modal.Header>
+        <Modal.Body className="space-y-5">
+          <Controller
+            control={control}
+            name="url"
+            render={({ field, fieldState }) => (
+              <TextField
+                label="Site URL"
+                aria-label="URL"
+                placeholder="https://www.google.com"
+                isInvalid={fieldState.invalid}
+                errorMessage={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+          <div className="space-y-1">
             <Controller
               control={control}
-              name="url"
-              render={({ field, fieldState }) => (
-                <TextField
-                  label="Site URL"
-                  aria-label="URL"
-                  placeholder="https://www.google.com"
-                  isInvalid={fieldState.invalid}
-                  errorMessage={fieldState.error?.message}
-                  {...field}
-                />
+              name="useCustomSlug"
+              render={({ field }) => (
+                <div className="flex items-center justify-between">
+                  <Label>Custom slug</Label>
+                  <Switch isSelected={field.value} onChange={field.onChange} />
+                </div>
               )}
             />
-            <div className="space-y-1">
+            {useCustomSlug && (
               <Controller
                 control={control}
-                name="useCustomSlug"
-                render={({ field }) => (
-                  <div className="flex items-center justify-between">
-                    <Label>Custom slug</Label>
-                    <Switch
-                      isSelected={field.value}
-                      onChange={field.onChange}
-                    />
-                  </div>
+                name="slug"
+                render={({ field, fieldState }) => (
+                  <TextField
+                    aria-label="Slug"
+                    placeholder="my-custom-slug"
+                    isInvalid={
+                      fieldState.invalid ||
+                      (slug !== "" && slugStatus === "taken")
+                    }
+                    errorMessage={
+                      slugStatus === "taken"
+                        ? "Slug is already taken"
+                        : fieldState.error?.message
+                    }
+                    isPending={slugStatus === "pending"}
+                    suffix={
+                      slugStatus === "available" ? (
+                        <IconCheck />
+                      ) : slugStatus === "taken" ? (
+                        <IconCircleX />
+                      ) : null
+                    }
+                    {...field}
+                  />
                 )}
               />
-              {useCustomSlug && (
-                <Controller
-                  control={control}
-                  name="slug"
-                  render={({ field, fieldState }) => (
-                    <TextField
-                      aria-label="Slug"
-                      placeholder="my-custom-slug"
-                      isInvalid={
-                        fieldState.invalid ||
-                        (slug !== "" && slugStatus === "taken")
-                      }
-                      errorMessage={
-                        slugStatus === "taken"
-                          ? "Slug is already taken"
-                          : fieldState.error?.message
-                      }
-                      isPending={slugStatus === "pending"}
-                      suffix={
-                        slugStatus === "available" ? (
-                          <IconCheck />
-                        ) : slugStatus === "taken" ? (
-                          <IconCircleX />
-                        ) : null
-                      }
-                      {...field}
-                    />
-                  )}
-                />
+            )}
+          </div>
+          <div className="space-y-1">
+            <Controller
+              control={control}
+              name="useExpiration"
+              render={({ field }) => (
+                <div className="flex items-center justify-between">
+                  <Label>Expiration date</Label>
+                  <Switch isSelected={field.value} onChange={field.onChange} />
+                </div>
               )}
-            </div>
-            <div className="space-y-1">
+            />
+            {useExpiration && (
               <Controller
                 control={control}
-                name="useExpiration"
-                render={({ field }) => (
-                  <div className="flex items-center justify-between">
-                    <Label>Expiration date</Label>
-                    <Switch
-                      isSelected={field.value}
-                      onChange={field.onChange}
-                    />
-                  </div>
+                name="expiration"
+                render={({ field: { onChange, value }, fieldState }) => (
+                  <DatePicker
+                    aria-label="Expiration date"
+                    minValue={today(getLocalTimeZone()).add({ days: 1 })}
+                    maxValue={today(getLocalTimeZone()).add({ years: 2 })}
+                    onChange={(date) => onChange(date)}
+                    value={value}
+                    isInvalid={fieldState.invalid}
+                    errorMessage={fieldState.error?.message}
+                  />
                 )}
               />
-              {useExpiration && (
-                <Controller
-                  control={control}
-                  name="expiration"
-                  render={({ field: { onChange, value }, fieldState }) => (
-                    <DatePicker
-                      aria-label="Expiration date"
-                      minValue={today(getLocalTimeZone()).add({ days: 1 })}
-                      maxValue={today(getLocalTimeZone()).add({ years: 2 })}
-                      onChange={(date) => onChange(date)}
-                      value={value}
-                      isInvalid={fieldState.invalid}
-                      errorMessage={fieldState.error?.message}
-                    />
-                  )}
-                />
-              )}
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Modal.Close
-              intent="secondary"
-              className="w-full"
-              isDisabled={isPending}
-            >
-              Cancel
-            </Modal.Close>
-            <Button className="w-full" type="submit" isPending={isPending}>
-              {isPending ? <Loader /> : "Create"}
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal.Content>
-    </Modal>
+            )}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Modal.Close
+            intent="secondary"
+            className="w-full"
+            isDisabled={isPending}
+          >
+            Cancel
+          </Modal.Close>
+          <Button className="w-full" type="submit" isPending={isPending}>
+            {isPending ? <Loader /> : "Create"}
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal.Content>
   );
 };
 
