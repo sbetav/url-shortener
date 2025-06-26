@@ -19,7 +19,12 @@ interface UserLinksProps {
   user: User;
 }
 
-type SortOption = "newest" | "oldest" | "most-clicks" | "least-clicks";
+type SortOption =
+  | "newest"
+  | "oldest"
+  | "most-clicks"
+  | "least-clicks"
+  | "expiring-soon";
 
 const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -40,6 +45,7 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
     { id: "oldest", label: "Oldest first" },
     { id: "most-clicks", label: "Most clicks" },
     { id: "least-clicks", label: "Least clicks" },
+    { id: "expiring-soon", label: "Expiring soon" },
   ];
 
   const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +79,18 @@ const UserLinks: FC<UserLinksProps> = ({ links, user }) => {
           return (b.clickCount || 0) - (a.clickCount || 0);
         case "least-clicks":
           return (a.clickCount || 0) - (b.clickCount || 0);
+        case "expiring-soon":
+          const aHasExp = !!a.expiration;
+          const bHasExp = !!b.expiration;
+          if (aHasExp && !bHasExp) return -1;
+          if (!aHasExp && bHasExp) return 1;
+          if (aHasExp && bHasExp) {
+            return (
+              new Date(a.expiration!).getTime() -
+              new Date(b.expiration!).getTime()
+            );
+          }
+          return 0;
         default:
           return 0;
       }

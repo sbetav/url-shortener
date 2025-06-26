@@ -2,6 +2,7 @@
 
 import { LinkType } from "@/types";
 import {
+  IconCheck,
   IconClipboard,
   IconDotsVertical,
   IconPin,
@@ -23,6 +24,7 @@ interface LinkCardProps {
 
 const LinkCard: FC<LinkCardProps> = ({ link }) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   return (
     <>
       {link.user_id && (
@@ -36,7 +38,26 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
       <div className="border-border group bg-bg/20 relative w-full rounded-xl border px-4 pt-3 pb-4 transition-all hover:bg-neutral-900/40">
         <Link href={`/links/${link.slug}`} className="absolute inset-0 z-0" />
         <div className="relative z-10 flex w-full items-center justify-between">
-          <p className="text-lg font-semibold tracking-tight">{link.slug}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-lg font-semibold tracking-tight">{link.slug}</p>
+
+            <button
+              aria-label="Copy URL"
+              className="bg-primary text-primary-fg flex cursor-pointer items-center justify-center gap-1 rounded p-1 text-xs font-medium"
+              onClick={() => {
+                copyToClipboard(`${SITE_URL}/${link.slug}`, false);
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 2000);
+              }}
+            >
+              {isCopied ? (
+                <IconCheck className="size-3.5" />
+              ) : (
+                <IconClipboard className="size-3.5" />
+              )}{" "}
+              {isCopied ? "Copied" : "Copy"}
+            </button>
+          </div>
           <Menu>
             <Menu.Trigger className="hover:border-border hover:bg-secondary -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all">
               <IconDotsVertical />
@@ -45,12 +66,6 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
               <Menu.Item>
                 <IconPin />
                 Pin
-              </Menu.Item>
-              <Menu.Item
-                onAction={() => copyToClipboard(`${SITE_URL}/${link.slug}`)}
-              >
-                <IconClipboard />
-                Copy URL
               </Menu.Item>
               <Menu.Item isDanger onAction={() => setDeleteModalOpen(true)}>
                 <IconTrash />
