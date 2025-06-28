@@ -18,7 +18,7 @@ export async function POST() {
  const THIRTY_DAYS_AGO = new Date(Date.now() - 1000 * 60 * 60 * 24 * 1);
 
   let deletedCount = 0;
-  let failed = [];
+  const failed = [];
 
   for (const link of links || []) {
     const createdAt = new Date(link.created_at);

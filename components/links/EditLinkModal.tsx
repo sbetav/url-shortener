@@ -15,10 +15,10 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import {
-    getLocalTimeZone,
-    parseDate,
-    today,
-    type DateValue,
+  getLocalTimeZone,
+  parseDate,
+  today,
+  type DateValue,
 } from "@internationalized/date";
 import { Loader } from "@/components/ui/loader";
 import { zodAlwaysRefine } from "@/utils/zodAlwaysRefine";
@@ -153,10 +153,10 @@ export const EditLinkModal: FC<EditLinkModalProps> = ({
                     render={({ field }) => (
                       <DatePicker
                         aria-label="Expiration date"
-                        minValue={today(getLocalTimeZone()).add({ days: 1 })}
-                        maxValue={today(getLocalTimeZone()).add({ years: 2 })}
-                        onChange={(date) => field.onChange(date)}
-                        value={field.value}
+                        minValue={today(getLocalTimeZone()).add({ days: 1 }) as any}
+                        maxValue={today(getLocalTimeZone()).add({ years: 2 }) as any}
+                        onChange={(date) => field.onChange(date as any)}
+                        value={field.value as any}
                         isInvalid={!!errors.expiration}
                         errorMessage={errors.expiration?.message}
                       />

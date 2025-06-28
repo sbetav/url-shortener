@@ -107,13 +107,13 @@ const ClicksOverTime: FC<ClicksOverTimeProps> = ({ link, clicks }) => {
         <div className="absolute top-4 right-5">
           <DateRangePicker
             aria-label="Date range"
-            value={date}
-            onChange={setDate}
+            value={date as any}
+            onChange={setDate as any}
             isInvalid={isInvalid}
             granularity="day"
             errorMessage="The selected date range cannot exceed 14 days."
-            maxValue={today(getLocalTimeZone())}
-            minValue={minDate}
+            maxValue={today(getLocalTimeZone()) as any}
+            minValue={minDate as any}
           />
         </div>
       ) : (

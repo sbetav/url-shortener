@@ -200,10 +200,10 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({
                 render={({ field: { onChange, value }, fieldState }) => (
                   <DatePicker
                     aria-label="Expiration date"
-                    minValue={today(getLocalTimeZone()).add({ days: 1 })}
-                    maxValue={today(getLocalTimeZone()).add({ years: 2 })}
-                    onChange={(date) => onChange(date)}
-                    value={value}
+                    minValue={today(getLocalTimeZone()).add({ days: 1 }) as any}
+                    maxValue={today(getLocalTimeZone()).add({ years: 2 }) as any}
+                    onChange={(date) => onChange(date as any)}
+                    value={value as any}
                     isInvalid={fieldState.invalid}
                     errorMessage={fieldState.error?.message}
                   />
