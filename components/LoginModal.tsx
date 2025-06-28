@@ -32,7 +32,11 @@ const LoginModal: FC<LoginModalProps> = ({ trigger }) => {
         <Modal.Footer>
           <p className="text-muted-fg w-full text-center text-sm">
             Having issues?{" "}
-            <Link href="/" className="underline">
+            <Link
+              href="https://www.linkedin.com/in/santiago-betancur/"
+              target="_blank"
+              className="underline"
+            >
               Let me know!
             </Link>
           </p>
