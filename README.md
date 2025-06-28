@@ -7,7 +7,7 @@
 Shortie is a simple and fast URL shortener that allows you to easily create short links without needing to sign up. Instantly generate shareable short URLs, and—if you create an account—access extra features like analytics, custom links, and expiration dates for your links.
 
  <p align="center">
-    <a href="https://shortie-url.vercel.app/">View Demo</a>
+    <a href="https://shortie-url.vercel.app/" target="_blank">View Demo</a>
     &middot;
     <a href="https://github.com/sbetav/url-shortener/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
