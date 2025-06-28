@@ -19,7 +19,7 @@ const LinkActionButtons: FC<LinkActionButtonsProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   return (
     <div className="flex items-center gap-2">
-      <Button size="small" onPress={() => setIsEditModalOpen(true)}>
+      <Button size="small" onPress={() => setIsEditModalOpen(true)} className="w-full md:w-fit">
         <IconPencilBox className="size-4" />
         Edit
       </Button>
@@ -27,6 +27,7 @@ const LinkActionButtons: FC<LinkActionButtonsProps> = ({
         intent="secondary"
         size="small"
         onPress={() => setIsDeleteModalOpen(true)}
+        className="w-full md:w-fit"
       >
         <IconTrash className="size-4" />
         Delete

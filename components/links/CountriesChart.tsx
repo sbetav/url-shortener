@@ -25,7 +25,7 @@ const countryCodeToName = Object.fromEntries(
 
 const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
   const chartData = countries.slice(0, 5).map((country, index) => ({
-    category: country.country,
+    category: countryCodeToName[country.country] || country.country,
     clicks: country.count,
     fill: `var(--chart-${(index % 5) + 1})`,
   }));
@@ -44,7 +44,7 @@ const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
   const totalClicks = countries.reduce((acc, curr) => acc + curr.count, 0);
 
   return (
-    <LinkDetailWrapper className="flex items-center justify-between gap-10">
+    <LinkDetailWrapper className="flex items-center justify-between gap-10 md:flex-row flex-col">
       <IconLocation className="text-muted-fg absolute top-4 right-5 size-7" />
 
       <div
@@ -60,7 +60,7 @@ const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
         </div>
         {isDataAvailable ? (
           <div className="mt-3 w-full">
-            <div className="min-h-[300px] w-full divide-y">
+            <div className="md:min-h-[300px] w-full divide-y">
               {countries.slice(0, 10).map((country) => (
                 <div
                   key={country.country}

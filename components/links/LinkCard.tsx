@@ -17,7 +17,7 @@ import { copyToClipboard } from "@/utils/copy-to-clipboard";
 import { Badge } from "../ui/badge";
 import { Menu } from "../ui/menu";
 import { DeleteLinkModal } from "./DeleteLinkModal";
-import { formatDistanceToNowStrict } from "date-fns";
+import { formatDistanceToNowStrict, differenceInHours, isAfter } from "date-fns";
 import { Link } from "../ui/link";
 import { useAction } from "next-safe-action/hooks";
 import { toggleLinkPin } from "@/actions/link.actions";
@@ -69,7 +69,7 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
           <Menu>
             <Menu.Trigger
               aria-label="Link actions"
-              className="hover:border-border hover:bg-secondary z-20 -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all"
+              className="hover:border-border hover:bg-secondary z-20 -mr-1 cursor-pointer rounded-full border border-transparent p-1.5 transition-all"
             >
               <IconDotsVertical />
             </Menu.Trigger>
@@ -112,11 +112,13 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
           {link.expiration && (
             <Badge intent="warning">
               Expires{" "}
-              {new Date(link.expiration) > new Date()
-                ? formatDistanceToNowStrict(link.expiration, {
-                    addSuffix: true,
-                  })
-                : "today"}
+              {isAfter(new Date(link.expiration), new Date()) ? (
+                differenceInHours(new Date(link.expiration), new Date()) < 24
+                  ? "today"
+                  : formatDistanceToNowStrict(link.expiration, { addSuffix: true })
+              ) : (
+                "today"
+              )}
             </Badge>
           )}
         </div>

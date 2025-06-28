@@ -12,11 +12,17 @@ import {
   IconChevronLeft,
   IconCursorClick,
 } from "@intentui/icons";
-import { format } from "date-fns";
+import {
+  differenceInHours,
+  format,
+  formatDistanceToNowStrict,
+  isAfter,
+} from "date-fns";
 import { Link } from "@/components/ui/link";
 import { redirect } from "next/navigation";
 import { FC } from "react";
 import LinkActionButtons from "@/components/links/LinkActionButtons";
+import SmallCopyButton from "@/components/links/SmallCopyButton";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -103,7 +109,7 @@ const Page: FC<PageProps> = async ({ params }) => {
 
   return (
     <section className="bg-bg/20 border-border my-8 w-full space-y-6 rounded-3xl border px-6 py-4 sm:px-10 sm:py-7">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div className="flex items-center gap-4">
           <Link
             href="/links"
@@ -113,18 +119,13 @@ const Page: FC<PageProps> = async ({ params }) => {
             <span className="text-sm">Back</span>
           </Link>
           <Separator orientation="vertical" className="h-7" />
-          <p className="font-bold tracking-tight sm:text-2xl">{data.slug}</p>
-          {data.expiration &&
-            new Date(data.expiration).getTime() - new Date().getTime() <
-              1000 * 60 * 60 * 24 * 3 && (
-              <Badge intent="warning" className="mt-0.5">
-                Expires soon
-              </Badge>
-            )}
+          <p className="text-lg font-bold tracking-tight sm:text-2xl">
+            {data.slug}
+          </p>
+          <SmallCopyButton slug={data.slug} label="Copy URL" />
         </div>
-        <div className="flex items-center gap-3">
-          <LinkActionButtons link={data} userId={data.user_id || ""} />
-        </div>
+
+        <LinkActionButtons link={data} userId={data.user_id || ""} />
       </div>
 
       <Separator className="w-full" />
@@ -133,7 +134,7 @@ const Page: FC<PageProps> = async ({ params }) => {
         automatically deleted.
       </Note>
       <div className="flex flex-col gap-5">
-        <div className="flex w-full gap-5">
+        <div className="flex w-full flex-col gap-5 md:flex-row">
           <LinkDetailWrapper>
             <div className="flex items-center justify-between">
               <p className="font-medium">Total clicks</p>
@@ -147,9 +148,26 @@ const Page: FC<PageProps> = async ({ params }) => {
           <LinkDetailWrapper>
             <div className="flex items-center justify-between">
               <p className="font-medium">Link information</p>
-              <IconCainLink3 className="text-muted-fg size-5" />
+              <div className="flex items-center gap-2">
+                {data.expiration && (
+                  <Badge intent="warning">
+                    Expires{" "}
+                    {isAfter(new Date(data.expiration), new Date())
+                      ? differenceInHours(
+                          new Date(data.expiration),
+                          new Date(),
+                        ) < 24
+                        ? "today"
+                        : formatDistanceToNowStrict(data.expiration, {
+                            addSuffix: true,
+                          })
+                      : "today"}
+                  </Badge>
+                )}
+                <IconCainLink3 className="text-muted-fg size-5" />
+              </div>
             </div>
-            <div className="mt-2 flex gap-3">
+            <div className="mt-2 flex flex-col gap-3 md:flex-row">
               <div className="border-border bg-secondary/60 w-full rounded-md border px-3 pt-0.5 pb-1.5">
                 <span className="text-muted-fg text-xs">URL</span>
                 <p className="line-clamp-1 max-w-[200px] text-sm">{linkUrl}</p>

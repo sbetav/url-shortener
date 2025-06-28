@@ -103,29 +103,31 @@ const ClicksOverTime: FC<ClicksOverTimeProps> = ({ link, clicks }) => {
 
   return (
     <LinkDetailWrapper>
-      {isDataAvailable ? (
-        <div className="absolute top-4 right-5">
-          <DateRangePicker
-            aria-label="Date range"
-            value={date as any}
-            onChange={setDate as any}
-            isInvalid={isInvalid}
-            granularity="day"
-            errorMessage="The selected date range cannot exceed 14 days."
-            maxValue={today(getLocalTimeZone()) as any}
-            minValue={minDate as any}
-          />
+      <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-xl font-semibold tracking-tight">
+            Clicks over time
+          </p>
+          <p className="text-muted-fg text-sm">
+            {isInvalid
+              ? "Please select a date range of 14 days or less"
+              : `Daily clicks (${format(dateRange.start, "PP")} - ${format(dateRange.end, "PP")})`}
+          </p>
         </div>
-      ) : (
-        <IconCalendarClock className="text-muted-fg absolute top-4 right-5 size-6" />
-      )}
-      <div>
-        <p className="text-xl font-semibold tracking-tight">Clicks over time</p>
-        <p className="text-muted-fg text-sm">
-          {isInvalid
-            ? "Please select a date range of 14 days or less"
-            : `Daily clicks (${format(dateRange.start, "PP")} - ${format(dateRange.end, "PP")})`}
-        </p>
+        {isDataAvailable ? (
+          <div>
+            <DateRangePicker
+              aria-label="Date range"
+              value={date as any}
+              onChange={setDate as any}
+              isInvalid={isInvalid}
+              granularity="day"
+              errorMessage="The selected date range cannot exceed 14 days."
+            />
+          </div>
+        ) : (
+          <IconCalendarClock className="text-muted-fg absolute top-4 right-5 size-6" />
+        )}
       </div>
       {isDataAvailable ? (
         <div className="mt-5">
