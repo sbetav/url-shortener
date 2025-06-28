@@ -51,7 +51,7 @@ const RangeCalendar = <T extends DateValue>({
                       "selected:after:bg-primary-fg invalid:selected:bg-danger/10 focus-visible:after:bg-primary-fg dark:invalid:selected:bg-danger/13",
                       "[td:first-child_&]:rounded-s-lg [td:last-child_&]:rounded-e-lg",
                       "forced-colors:selected:bg-[Highlight] forced-colors:selected:text-[HighlightText] forced-colors:invalid:selected:bg-[Mark]",
-                      date.compare(now) === 0 &&
+                      date.compare(now as any) === 0 &&
                         "after:-translate-x-1/2 after:pointer-events-none after:absolute after:start-1/2 after:bottom-1 after:z-10 after:size-[3px] after:rounded-full after:bg-primary selected:after:bg-primary-fg",
                     ])}
                   >
