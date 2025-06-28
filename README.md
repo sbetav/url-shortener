@@ -2,7 +2,7 @@
 
 # Shortie - URL Shortener
 
-[![Shortie Screen Shot][product-screenshot]](https://example.com)
+[![Shortie Screen Shot][product-screenshot]](https://shortie-url.vercel.app/)
 
 Shortie is a simple and fast URL shortener that allows you to easily create short links without needing to sign up. Instantly generate shareable short URLs, and—if you create an account—access extra features like analytics, custom links, and expiration dates for your links.
 
