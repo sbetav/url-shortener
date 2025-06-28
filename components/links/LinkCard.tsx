@@ -43,15 +43,15 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
         />
       )}
       <div className="border-border group bg-bg/20 relative w-full rounded-xl border px-4 pt-3 pb-4 transition-all hover:bg-neutral-900/40">
-        <Link href={`/links/${link.slug}`} className="absolute inset-0 z-0" />
-        <div className="relative z-10 flex w-full items-center justify-between">
+        <Link href={`/links/${link.slug}`} className="absolute inset-0 z-10" />
+        <div className="relative flex w-full items-center justify-between">
           <div className="flex items-center gap-2">
             {link.pinned && <IconPin2 className="text-primary size-[18px]" />}
             <p className="text-lg font-semibold tracking-tight">{link.slug}</p>
 
             <button
               aria-label="Copy URL"
-              className="bg-primary/15 text-primary/85 hover:bg-primary/20 hover:text-primary flex cursor-pointer items-center justify-center gap-1 rounded-[5px] p-1 pr-1.5 text-xs font-medium transition-all"
+              className="bg-primary/15 text-primary/85 hover:bg-primary/20 hover:text-primary z-20 flex cursor-pointer items-center justify-center gap-1 rounded-[5px] p-1 pr-1.5 text-xs font-medium transition-all"
               onClick={() => {
                 copyToClipboard(`${SITE_URL}/${link.slug}`, false);
                 setIsCopied(true);
@@ -69,7 +69,7 @@ const LinkCard: FC<LinkCardProps> = ({ link }) => {
           <Menu>
             <Menu.Trigger
               aria-label="Link actions"
-              className="hover:border-border hover:bg-secondary -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all"
+              className="hover:border-border hover:bg-secondary z-20 -mr-2.5 cursor-pointer rounded-full border border-transparent p-1.5 transition-all"
             >
               <IconDotsVertical />
             </Menu.Trigger>

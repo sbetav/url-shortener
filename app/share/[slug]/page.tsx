@@ -1,14 +1,15 @@
 import { LinkType } from "@/types";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { FC } from "react";
 import ShareLinkActions from "@/components/links/ShareLinkActions";
-import { IconArrowLeft } from "@intentui/icons";
+import { IconArrowLeft, IconArrowRight } from "@intentui/icons";
 import PageConfetti from "@/components/Confetti";
 import { Link } from "@/components/ui/link";
 import { Card } from "@/components/ui/card";
 import { Note } from "@/components/ui/note";
 import { SITE_URL } from "@/utils/constants";
+import { Separator } from "@/components/ui/separator";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -17,6 +18,7 @@ interface PageProps {
 const Page: FC<PageProps> = async ({ params }) => {
   const slug = (await params).slug;
   const supabase = await createClient();
+  const { data: user } = await supabase.auth.getUser();
 
   const { data, error } = await supabase
     .from("links")
@@ -24,8 +26,10 @@ const Page: FC<PageProps> = async ({ params }) => {
     .eq("slug", slug)
     .single<LinkType>();
 
-  if (error) {
-    redirect("/not-found");
+  const userIdMismatch = data?.user_id !== user.user?.id;
+
+  if (error || userIdMismatch) {
+    return notFound();
   }
 
   const url = `${SITE_URL}/${data.slug}`;
@@ -48,13 +52,29 @@ const Page: FC<PageProps> = async ({ params }) => {
           </Note>
         </Card.Footer>
       </Card>
-      <Link
-        href="/"
-        className="text-primary group flex items-center justify-center gap-1"
-      >
-        <IconArrowLeft className="size-5 transition-transform group-hover:-translate-x-1" />
-        Create a new link
-      </Link>
+      <div className="flex items-center justify-center gap-3">
+        <Link
+          href="/"
+          intent="primary"
+          className="group flex items-center justify-center gap-1"
+        >
+          <IconArrowLeft className="size-5 transition-transform group-hover:-translate-x-1" />
+          Create a new link
+        </Link>
+        {user && (
+          <>
+            <Separator className="bg-primary h-3" orientation="vertical" />
+            <Link
+              href="/links"
+              intent="secondary"
+              className="group flex items-center justify-center gap-1"
+            >
+              Go yo my links
+              <IconArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </>
+        )}
+      </div>
       <PageConfetti />
     </div>
   );
