@@ -20,7 +20,7 @@ interface CountriesChartProps {
 }
 
 const countryCodeToName = Object.fromEntries(
-  (countries as { code: string; name: string }[]).map((c) => [c.code, c.name])
+  (countries as { code: string; name: string }[]).map((c) => [c.code, c.name]),
 );
 
 const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
@@ -40,6 +40,8 @@ const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
   const isDataAvailable =
     countries.length > 0 &&
     !countries.some((country) => country.country === "unknown");
+
+  const totalClicks = countries.reduce((acc, curr) => acc + curr.count, 0);
 
   return (
     <LinkDetailWrapper className="flex items-center justify-between gap-10">
@@ -127,14 +129,14 @@ const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
                             y={viewBox.cy}
                             className="fill-fg text-3xl font-bold"
                           >
-                            {chartData.reduce((acc, curr) => acc + curr.clicks, 0)}
+                            {totalClicks}
                           </tspan>
                           <tspan
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 24}
                             className="fill-muted-fg"
                           >
-                            Countries
+                            {totalClicks == 1 ? "Country" : "Countries"}
                           </tspan>
                         </text>
                       );
