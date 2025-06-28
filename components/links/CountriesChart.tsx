@@ -13,10 +13,15 @@ import { PieChart } from "recharts";
 import LinkDetailWrapper from "./LinkDetailWrapper";
 import { ClickStats } from "@/types";
 import { cn } from "@/utils/classes";
+import countries from "@/utils/countries.json";
 
 interface CountriesChartProps {
   countries: ClickStats[];
 }
+
+const countryCodeToName = Object.fromEntries(
+  (countries as { code: string; name: string }[]).map((c) => [c.code, c.name])
+);
 
 const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
   const chartData = countries.slice(0, 5).map((country, index) => ({
@@ -65,7 +70,9 @@ const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
                       alt={`${country.country} flag`}
                       className="h-3.5 w-5 object-cover"
                     />
-                    <p className="text-sm">{country.country}</p>
+                    <p className="text-sm">
+                      {countryCodeToName[country.country] || country.country}
+                    </p>
                   </div>
                   <p className="text-sm">{country.count}</p>
                 </div>
@@ -120,7 +127,7 @@ const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
                             y={viewBox.cy}
                             className="fill-fg text-3xl font-bold"
                           >
-                            7
+                            {chartData.reduce((acc, curr) => acc + curr.clicks, 0)}
                           </tspan>
                           <tspan
                             x={viewBox.cx}
