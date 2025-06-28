@@ -19,17 +19,15 @@ interface CountriesChartProps {
 }
 
 const CountriesChart: FC<CountriesChartProps> = ({ countries }) => {
-  const chartData = [
-    { category: "United States", sales: 275, fill: "var(--chart-1)" },
-    { category: "United Kingdom", clicks: 200, fill: "var(--chart-2)" },
-    { category: "Germany", clicks: 287, fill: "var(--chart-3)" },
-    { category: "France", clicks: 173, fill: "var(--chart-4)" },
-    { category: "Italy", sales: 190, fill: "var(--chart-5)" },
-  ];
+  const chartData = countries.slice(0, 5).map((country, index) => ({
+    category: country.country,
+    clicks: country.count,
+    fill: `var(--chart-${(index % 5) + 1})`,
+  }));
 
   const chartConfig = {
     clicks: {
-        label: "Clicks",
+      label: "Clicks",
       color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
