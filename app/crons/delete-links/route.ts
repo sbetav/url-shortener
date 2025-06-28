@@ -4,24 +4,39 @@ import { NextResponse } from "next/server";
 export async function POST() {
   const supabase = await createClient();
 
-  // Fetch all links (include created_at)
+  // Fetch all links (include created_at and expiration)
   const { data: links, error: linksError } = await supabase
     .from("links")
-    .select("id, created_at");
+    .select("id, created_at, expiration");
 
   if (linksError) {
     return NextResponse.json({ error: linksError.message }, { status: 500 });
   }
 
- // const THIRTY_DAYS_AGO = new Date(Date.now() - 1000 * 60 * 60 * 24 * 30);
-
- const THIRTY_DAYS_AGO = new Date(Date.now() - 1000 * 60 * 60 * 24 * 1);
+  const THIRTY_DAYS_AGO = new Date(Date.now() - 1000 * 60 * 60 * 24 * 30);
 
   let deletedCount = 0;
   const failed = [];
 
   for (const link of links || []) {
     const createdAt = new Date(link.created_at);
+    const expiration = link.expiration ? new Date(link.expiration) : null;
+    const now = new Date();
+
+    // If the link is expired, delete it
+    if (expiration && expiration <= now) {
+      const { error: deleteError } = await supabase
+        .from("links")
+        .delete()
+        .eq("id", link.id);
+      if (deleteError) {
+        failed.push({ linkId: link.id, error: deleteError.message });
+      } else {
+        deletedCount++;
+      }
+      continue;
+    }
+
     if (createdAt > THIRTY_DAYS_AGO) {
       // Link is less than 30 days old, skip it
       continue;
