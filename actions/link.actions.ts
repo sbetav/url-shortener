@@ -50,7 +50,7 @@ export const createLink = actionClient
 
     if (error) {
       return {
-        error: "Something went wrong",
+        error: "Could not create link",
       };
     }
 
@@ -66,10 +66,11 @@ export const checkSlugAvailability = actionClient
 
     const supabase = await createClient();
 
+    const parsedSlug = slugify(slug, { lower: true, strict: true });
     const { data } = await supabase
       .from("links")
       .select("slug")
-      .eq("slug", slug)
+      .eq("slug", parsedSlug)
       .single();
 
     if (data) return false;
@@ -199,7 +200,9 @@ export const updateLink = actionClient
   );
 
 export const toggleLinkPin = actionClient
-  .schema(z.object({ linkId: z.string(), userId: z.string(), pinned: z.boolean() }))
+  .schema(
+    z.object({ linkId: z.string(), userId: z.string(), pinned: z.boolean() }),
+  )
   .action(async ({ parsedInput: { linkId, userId, pinned } }) => {
     const supabase = await createClient();
     const { error } = await supabase

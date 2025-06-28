@@ -38,14 +38,7 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({
 }) => {
   const router = useRouter();
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit, watch, setValue } = useForm({
     resolver: zodResolver(customLinkSchema),
     defaultValues: {
       slug: "",
@@ -66,7 +59,7 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({
     "idle" | "pending" | "available" | "taken"
   >("idle");
 
-  const debouncedSlug = useDebounce(slug, 500);
+  const debouncedSlug = useDebounce(slug, 300);
 
   const { executeAsync: createLink, isPending } = useAction(createCustomLink);
 
@@ -201,7 +194,9 @@ const CustomLinkModal: FC<CustomLinkModalProps> = ({
                   <DatePicker
                     aria-label="Expiration date"
                     minValue={today(getLocalTimeZone()).add({ days: 1 }) as any}
-                    maxValue={today(getLocalTimeZone()).add({ years: 2 }) as any}
+                    maxValue={
+                      today(getLocalTimeZone()).add({ years: 2 }) as any
+                    }
                     onChange={(date) => onChange(date as any)}
                     value={value as any}
                     isInvalid={fieldState.invalid}
