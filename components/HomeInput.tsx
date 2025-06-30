@@ -70,7 +70,7 @@ const HomeInput: FC<HomeInputProps> = ({ user }) => {
           type="url"
           disabled={isExecuting}
           placeholder="Enter URL"
-          className="bg-secondary/50 ring-ring/20 focus:border-ring w-full rounded-full border border-white/10 px-5 py-3 pr-[84px] tracking-tight outline-hidden transition-all outline-none hover:border-white/20 focus:ring-4 disabled:opacity-75 disabled:hover:border-white/10 md:text-lg"
+          className="bg-secondary/50 ring-ring/20 focus:border-ring w-full rounded-full border h-[54px] border-white/10 px-5 py-3 pr-[84px] tracking-tight outline-hidden transition-all outline-none hover:border-white/20 focus:ring-4 disabled:opacity-75 disabled:hover:border-white/10 md:text-lg"
           {...register("url")}
         />
         <Button
