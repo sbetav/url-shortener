@@ -61,7 +61,7 @@ const Page: FC<PageProps> = async ({ params }) => {
           <IconArrowLeft className="size-5 transition-transform group-hover:-translate-x-1" />
           Create a new link
         </Link>
-        {user && (
+        {user.user && (
           <>
             <Separator className="bg-primary h-3" orientation="vertical" />
             <Link
