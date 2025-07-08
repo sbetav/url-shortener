@@ -26,7 +26,7 @@ const Page: FC<PageProps> = async ({ params }) => {
     .eq("slug", slug)
     .single<LinkType>();
 
-  const userIdMismatch = data?.user_id !== user.user?.id;
+  const userIdMismatch = user.user?.id && data?.user_id !== user.user?.id;
 
   if (error || userIdMismatch) {
     return notFound();
