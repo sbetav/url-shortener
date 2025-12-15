@@ -19,7 +19,7 @@
     "@supabase/supabase-js": "^2.49.4",
     "date-fns": "^4.1.0",
     "nanoid": "^5.1.5",
-    "next": "15.3.2",
+    "next": "15.3.8",
     "next-safe-action": "^7.10.8",
     "next-share": "^0.27.0",
     "nextjs-toploader": "^3.8.16",
